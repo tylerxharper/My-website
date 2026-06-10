@@ -650,6 +650,23 @@
         }
         .footer__bottom a:hover { color: var(--ink); }
 
+        /* ---------- touch parity: scroll-driven versions of hover effects ---------- */
+        @media (hover: none) {
+            .pillar { transition: padding-left 0.6s var(--ease); }
+            .pillar.is-active { padding-left: 14px; }
+            .pillar__name { transition: color 0.5s ease; }
+            .pillar.is-active .pillar__name { color: var(--accent); }
+            .about__photo img { transition: transform 1.6s var(--ease), filter 1.2s ease; }
+            .about__media.is-in .about__photo img { transform: scale(1); filter: grayscale(0); }
+            .about__credential.is-active { border-color: var(--ink-dim); color: var(--ink); }
+            .contact__detail { transition: border-color 0.5s ease; }
+            .contact__detail.is-active { border-top-color: var(--line); }
+            .contact__detail.is-active .contact__detail-value { color: var(--accent); }
+            .btn:active { transform: scale(0.97); background: var(--accent); }
+            .nav__cta:active { background: var(--ink); color: var(--bg); }
+            .about__credential:active { border-color: var(--ink); color: var(--ink); }
+        }
+
         /* ---------- responsive ---------- */
         @media (max-width: 1024px) {
             .about__grid, .capture__grid, .contact__grid { grid-template-columns: 1fr; }
@@ -667,7 +684,6 @@
             .hero__eyebrow { letter-spacing: 0.16em; font-size: 0.625rem; margin-bottom: 18px; }
             .hero__intro { font-size: 0.9375rem; }
             .hero__title { padding-bottom: 24px; }
-            .hero__title .line--right { text-align: left; }
             .hero__bottom { flex-wrap: wrap; gap: 10px 20px; padding: 16px 0 20px; }
             .hero__bottom > span:last-child { display: none; }
 
@@ -1015,16 +1031,24 @@
         const track = document.getElementById('marqueeTrack');
         track.innerHTML += track.innerHTML;
 
-        // Scroll reveal
+        // Scroll reveal with cascade: elements entering together stagger like the desktop flow
         const io = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('is-in');
-                    io.unobserve(e.target);
-                }
+            entries.filter(e => e.isIntersecting).forEach((e, i) => {
+                e.target.style.transitionDelay = (i * 90) + 'ms';
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Touch parity: on devices without hover, the element crossing the middle of the
+        // viewport gets the same active treatment desktop gets on hover, in both directions
+        if (window.matchMedia('(hover: none)').matches) {
+            const band = new IntersectionObserver(entries => {
+                entries.forEach(e => e.target.classList.toggle('is-active', e.isIntersecting));
+            }, { rootMargin: '-38% 0px -38% 0px' });
+            document.querySelectorAll('.pillar, .contact__detail, .about__credential').forEach(el => band.observe(el));
+        }
 
         // Chicago local time in nav
         const timeEl = document.getElementById('localTime');

@@ -8,6 +8,27 @@
     <meta property="og:title" content="Tyler Harper — Operator. Builder. Systems Thinker.">
     <meta property="og:description" content="I build systems that turn capability into leverage.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="images/tyler-harper.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#0E0E0C">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E0E0C'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-style='italic' font-size='34' fill='%23C8B68E' text-anchor='middle'%3E1%3C/text%3E%3C/svg%3E">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Tyler Harper",
+      "jobTitle": "Operator, Builder, Systems Thinker",
+      "description": "Builder and operator working at the intersection of finance, AI, and systems design. Founder of The Village, a free leadership program for college students.",
+      "email": "mailto:One.Standard@yahoo.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "Chicago", "addressRegion": "IL" },
+      "sameAs": [
+        "https://instagram.com/one.standard",
+        "https://tiktok.com/@one.standard",
+        "https://youtube.com/@onestandard",
+        "https://linkedin.com/in/tylerharper"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -256,8 +277,8 @@
             filter: grayscale(20%);
         }
         .hero__title {
-            font-size: clamp(2.375rem, 6.8vw, 6.25rem);
-            line-height: 1.04;
+            font-size: clamp(1.875rem, 6.8vw, 6.25rem);
+            line-height: 1.08;
             border-bottom: 1px solid var(--line-soft);
             padding-bottom: clamp(24px, 4vh, 48px);
         }
@@ -1024,10 +1045,41 @@
             await subscribeToBeehiiv(form, form.email.value, form.first_name.value || '');
         });
 
+        // Contact form — delivers the message via FormSubmit
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
-            await subscribeToBeehiiv(form, form.email.value, form.first_name.value || '');
+            const successEl = form.querySelector('.form-success');
+            const errorEl = form.querySelector('.form-error');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            successEl.style.display = 'none';
+            errorEl.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Sending...';
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/One.Standard@yahoo.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        name: form.first_name.value,
+                        email: form.email.value,
+                        message: form.message.value,
+                        _subject: 'New message from onestandard site',
+                        _template: 'table'
+                    })
+                });
+                if (!res.ok) throw new Error('send failed');
+                successEl.style.display = 'block';
+                form.reset();
+            } catch (err) {
+                errorEl.style.display = 'block';
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
         });
     </script>
 </body>

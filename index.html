@@ -41,8 +41,8 @@
             --line: rgba(235, 233, 226, 0.12);
             --line-soft: rgba(235, 233, 226, 0.07);
             --ink: #EBE9E2;
-            --ink-dim: #98968F;
-            --ink-faint: #5E5D58;
+            --ink-dim: #9D9B94;
+            --ink-faint: #84827B;
             --paper: #EFEDE6;
             --paper-ink: #121210;
             --paper-dim: #6B6962;
@@ -64,6 +64,24 @@
             overflow-x: hidden;
         }
         ::selection { background: var(--accent); color: var(--bg); }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+        .skip-link {
+            position: absolute;
+            top: -100px; left: 16px;
+            z-index: 3000;
+            padding: 12px 20px;
+            background: var(--ink);
+            color: var(--bg);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: top 0.2s ease;
+        }
+        .skip-link:focus { top: 16px; }
         img { max-width: 100%; display: block; }
         a { color: inherit; text-decoration: none; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
@@ -119,6 +137,8 @@
         @media (prefers-reduced-motion: reduce) {
             .reveal { opacity: 1; transform: none; transition: none; }
             html { scroll-behavior: auto; }
+            .marquee__track, .hero__scroll svg, .loader__word { animation: none !important; }
+            .hero__title .line span { animation: none; transform: none; }
         }
 
         /* ---------- preloader ---------- */
@@ -639,20 +659,56 @@
         }
         @media (max-width: 768px) {
             .nav__menu, .nav__meta { display: none; }
-            .nav__toggle { display: flex; }
-            .hero__top { grid-template-columns: 1fr; }
-            .hero__portrait { order: -1; }
-            .section__head { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .about__stats { grid-template-columns: 1fr; }
-            .about__stat + .about__stat { padding-left: 0; border-left: none; border-top: 1px solid var(--line-soft); margin-top: 20px; padding-top: 20px; }
-            .footer__top { flex-direction: column; }
-            .footer__social { text-align: left; }
+            .nav__toggle { display: flex; padding: 12px; margin-right: -12px; }
+
+            .hero { padding-top: 110px; }
+            .hero__top { grid-template-columns: 1fr; gap: 28px; margin-bottom: 36px; }
+            .hero__portrait { order: -1; width: 96px; padding: 4px; }
+            .hero__eyebrow { letter-spacing: 0.16em; font-size: 0.625rem; margin-bottom: 18px; }
+            .hero__intro { font-size: 0.9375rem; }
+            .hero__title { padding-bottom: 24px; }
+            .hero__title .line--right { text-align: left; }
+            .hero__bottom { flex-wrap: wrap; gap: 10px 20px; padding: 16px 0 20px; }
+            .hero__bottom > span:last-child { display: none; }
+
+            .marquee { padding: 16px 0; }
+
+            .section { padding: 72px 0; }
+            .method { padding: 72px 0; }
+            .section__head { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 40px; }
+
+            .about__grid { gap: 36px; }
+            .about__lede { margin-bottom: 24px; }
+            .about__stats { grid-template-columns: 1fr; margin-top: 36px; }
+            .about__stat { padding: 18px 0 0; }
+            .about__stat + .about__stat { padding-left: 0; border-left: none; border-top: 1px solid var(--line-soft); margin-top: 18px; padding-top: 18px; }
+            .about__credentials { margin-top: 36px; }
+
+            .pillar { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
+            .pillar:hover { padding-left: 0; }
+            .pillar__name { font-size: clamp(1.625rem, 7.5vw, 2.25rem); }
+            .pillar__desc { grid-column: 1; }
+
+            .capture__grid, .contact__grid { gap: 40px; }
+            .contact__detail { flex-wrap: wrap; gap: 4px 16px; }
+            .contact__detail-value { overflow-wrap: anywhere; }
+
+            .btn { padding: 16px 28px; width: 100%; }
+
+            .footer { padding-top: 64px; }
+            .footer__top { flex-direction: column; gap: 28px; padding-bottom: 44px; }
+            .footer__social { flex-direction: row; flex-wrap: wrap; gap: 6px 8px; text-align: left; }
+            .footer__social a { padding: 8px 10px; margin-left: -10px; }
+            .footer__wordmark { font-size: clamp(2.375rem, 13.5vw, 13.5rem); }
+            .footer__bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="loader" id="loader"><span class="loader__word">OneStandard</span></div>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="loader" id="loader" aria-hidden="true"><span class="loader__word">OneStandard</span></div>
 
     <nav class="nav" id="nav">
         <div class="container">
@@ -668,7 +724,7 @@
                     <span id="localTime">Chicago --:--</span>
                     <a href="#capture" class="nav__cta">Newsletter</a>
                 </div>
-                <button class="nav__toggle" id="navToggle" aria-label="Menu">
+                <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
                     <span></span><span></span>
                 </button>
             </div>
@@ -683,7 +739,7 @@
         <a href="#contact" class="nav__mobile-link">Contact <span>05</span></a>
     </div>
 
-    <main>
+    <main id="main">
         <!-- HERO -->
         <header class="hero">
             <div class="container">
@@ -841,8 +897,8 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </button>
                         <p class="form-note">No spam. Unsubscribe anytime.</p>
-                        <p class="form-success">Welcome to the movement.</p>
-                        <p class="form-error">Something went wrong. Try again.</p>
+                        <p class="form-success" role="status">Welcome to the movement.</p>
+                        <p class="form-error" role="alert">Something went wrong. Try again.</p>
                     </form>
                 </div>
             </div>
@@ -889,8 +945,8 @@
                             <textarea id="ct-msg" name="message" class="form-textarea" placeholder="What's on your mind?" required></textarea>
                         </div>
                         <button type="submit" class="btn form-submit">Send Message</button>
-                        <p class="form-success">Message received. I'll be in touch.</p>
-                        <p class="form-error">Something went wrong. Try again.</p>
+                        <p class="form-success" role="status">Message received. I'll be in touch.</p>
+                        <p class="form-error" role="alert">Something went wrong. Try again.</p>
                     </form>
                 </div>
             </div>
@@ -932,16 +988,18 @@
         // Mobile menu
         const toggle = document.getElementById('navToggle');
         const mobile = document.getElementById('mobileMenu');
-        toggle.addEventListener('click', () => {
-            const open = mobile.classList.toggle('is-active');
+        function setMenu(open) {
+            mobile.classList.toggle('is-active', open);
             toggle.classList.toggle('is-active', open);
+            toggle.setAttribute('aria-expanded', open);
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
             document.body.style.overflow = open ? 'hidden' : '';
+        }
+        toggle.addEventListener('click', () => setMenu(!mobile.classList.contains('is-active')));
+        mobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && mobile.classList.contains('is-active')) setMenu(false);
         });
-        mobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-            mobile.classList.remove('is-active');
-            toggle.classList.remove('is-active');
-            document.body.style.overflow = '';
-        }));
 
         // Smooth anchor scroll
         document.querySelectorAll('a[href^="#"]').forEach(a => {

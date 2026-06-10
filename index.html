@@ -3,1364 +3,1104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneStandard | How You Do Anything Is How You Do Everything</title>
-    <meta name="description" content="OneStandard helps driven individuals unlock their full potential through Faith, Discipline, and Hard Work. Founded by Tyler Harper.">
-    
+    <title>Tyler Harper — OneStandard</title>
+    <meta name="description" content="Tyler Harper is a strategist, consultant, and coach. OneStandard is his philosophy: how you do anything is how you do everything. Faith. Discipline. Hard Work.">
+    <meta property="og:title" content="Tyler Harper — OneStandard">
+    <meta property="og:description" content="How you do anything is how you do everything.">
+    <meta property="og:type" content="website">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --black: #0A0A0A;
-            --white: #FFFFFF;
-            --cream: #FAFAFA;
-            --gray-50: #F8F8F8;
-            --gray-100: #F0F0F0;
-            --gray-200: #E4E4E4;
-            --gray-300: #D0D0D0;
-            --gray-400: #A0A0A0;
-            --gray-500: #707070;
-            --gray-600: #505050;
-            --gray-700: #303030;
-            --gray-800: #1A1A1A;
-            --duke: #001A57;
-            --font-display: 'Playfair Display', Georgia, serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg: #0E0E0C;
+            --bg-2: #141412;
+            --line: rgba(235, 233, 226, 0.12);
+            --line-soft: rgba(235, 233, 226, 0.07);
+            --ink: #EBE9E2;
+            --ink-dim: #98968F;
+            --ink-faint: #5E5D58;
+            --paper: #EFEDE6;
+            --paper-ink: #121210;
+            --paper-dim: #6B6962;
+            --accent: #C8B68E;
+            --display: 'Inter Tight', -apple-system, sans-serif;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --body: 'Inter', -apple-system, sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: var(--font-body);
-            background: var(--black);
-            color: var(--cream);
+            font-family: var(--body);
+            background: var(--bg);
+            color: var(--ink);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        ::selection { background: var(--duke); color: var(--white); }
-        img { max-width: 100%; height: auto; display: block; }
+        ::selection { background: var(--accent); color: var(--bg); }
+        img { max-width: 100%; display: block; }
         a { color: inherit; text-decoration: none; }
-        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1320px;
             margin: 0 auto;
-            padding: 0 clamp(20px, 5vw, 48px);
+            padding: 0 clamp(20px, 4vw, 56px);
         }
 
-        /* NAV */
+        /* ---------- shared type ---------- */
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+        }
+        .eyebrow::before {
+            content: '';
+            width: 24px; height: 1px;
+            background: currentColor;
+            opacity: 0.6;
+        }
+        .display {
+            font-family: var(--display);
+            font-weight: 500;
+            line-height: 0.98;
+            letter-spacing: -0.035em;
+        }
+        .display em {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            color: var(--accent);
+        }
+
+        /* ---------- reveal ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+        }
+        .reveal.is-in { opacity: 1; transform: none; }
+        .reveal[data-delay="1"] { transition-delay: 0.1s; }
+        .reveal[data-delay="2"] { transition-delay: 0.2s; }
+        .reveal[data-delay="3"] { transition-delay: 0.3s; }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ---------- preloader ---------- */
+        .loader {
+            position: fixed; inset: 0;
+            background: var(--bg);
+            z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.7s var(--ease), visibility 0.7s;
+        }
+        .loader.is-done { opacity: 0; visibility: hidden; }
+        .loader__word {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            color: var(--ink-dim);
+            animation: loaderPulse 1.4s ease infinite;
+        }
+        @keyframes loaderPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        /* ---------- nav ---------- */
         .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            position: fixed; top: 0; left: 0; right: 0;
             z-index: 1000;
-            padding: 20px 0;
-            transition: all 0.4s var(--ease);
+            padding: 22px 0;
+            transition: all 0.5s var(--ease);
         }
         .nav--scrolled {
-            background: rgba(10, 10, 10, 0.96);
-            backdrop-filter: blur(24px);
             padding: 14px 0;
+            background: rgba(14, 14, 12, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line-soft);
         }
-        .nav__inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        .nav__inner { display: flex; align-items: center; justify-content: space-between; }
         .nav__logo {
-            font-family: var(--font-display);
-            font-size: 1.375rem;
-            font-weight: 500;
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
         }
-        .nav__logo span { color: var(--gray-400); font-style: italic; }
-        .nav__menu {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            list-style: none;
+        .nav__logo em {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--ink-dim);
         }
+        .nav__menu { display: flex; align-items: center; gap: 36px; list-style: none; }
         .nav__link {
             font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--gray-400);
+            color: var(--ink-dim);
             transition: color 0.3s ease;
-        }
-        .nav__link:hover { color: var(--white); }
-        .nav__cta {
-            padding: 12px 24px;
-            background: var(--white);
-            color: var(--black);
-            font-size: 0.6875rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            transition: all 0.3s var(--ease);
-        }
-        .nav__cta:hover { background: var(--gray-200); }
-        .nav__toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            padding: 8px;
-        }
-        .nav__toggle span {
-            width: 22px;
-            height: 1.5px;
-            background: var(--white);
-        }
-        .nav__mobile {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--black);
-            z-index: 999;
-            padding: 100px 24px 40px;
-            flex-direction: column;
-        }
-        .nav__mobile.is-active { display: flex; }
-        .nav__mobile-link {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            color: var(--cream);
-            padding: 20px 0;
-            border-bottom: 1px solid var(--gray-800);
-        }
-
-        /* HERO */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 140px 0 100px;
-        }
-        .hero__content { max-width: 720px; }
-        .hero__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 28px;
-            opacity: 0;
-            animation: fadeUp 0.7s var(--ease) 0.1s forwards;
-        }
-        .hero__eyebrow::before {
-            content: '';
-            width: 32px;
-            height: 1px;
-            background: var(--gray-600);
-        }
-        .hero__title {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeUp 0.7s var(--ease) 0.2s forwards;
-        }
-        .hero__title span {
-            display: block;
-            color: var(--gray-400);
-            font-style: italic;
-            font-weight: 400;
-        }
-        .hero__tagline {
-            font-family: var(--font-display);
-            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-            font-style: italic;
-            color: var(--gray-500);
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeUp 0.7s var(--ease) 0.3s forwards;
-        }
-        .hero__text {
-            font-size: 1rem;
-            line-height: 1.75;
-            color: var(--gray-500);
-            max-width: 480px;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeUp 0.7s var(--ease) 0.4s forwards;
-        }
-        .hero__actions {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-            opacity: 0;
-            animation: fadeUp 0.7s var(--ease) 0.5s forwards;
-        }
-
-        /* BUTTONS */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            transition: all 0.3s var(--ease);
-        }
-        .btn--primary {
-            padding: 16px 32px;
-            background: var(--white);
-            color: var(--black);
-        }
-        .btn--primary:hover {
-            background: var(--gray-200);
-            transform: translateY(-2px);
-        }
-        .btn--ghost {
-            color: var(--gray-500);
-            padding: 0;
-        }
-        .btn--ghost:hover { color: var(--white); }
-        .btn__icon {
-            width: 14px;
-            height: 14px;
-            transition: transform 0.3s var(--ease);
-        }
-        .btn:hover .btn__icon { transform: translateX(3px); }
-
-        /* QUOTE */
-        .quote {
-            padding: 100px 0;
-            background: var(--cream);
-            color: var(--black);
-        }
-        .quote__inner {
-            max-width: 880px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .quote__text {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 500;
-            line-height: 1.35;
-            margin-bottom: 28px;
-        }
-        .quote__text em {
-            color: var(--duke);
-            font-style: italic;
-        }
-        .quote__author {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-        .quote__title {
-            font-size: 0.6875rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-top: 4px;
-        }
-
-        /* PILLARS */
-        .pillars { padding: 100px 0; }
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        .section-eyebrow {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 12px;
-        }
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 500;
-            line-height: 1.1;
-        }
-        .section-title span {
-            font-style: italic;
-            color: var(--gray-400);
-        }
-        .pillars__grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 64px;
-        }
-        .pillar {
-            background: var(--gray-800);
-            padding: 48px 32px;
-            text-align: center;
-            transition: all 0.4s var(--ease);
             position: relative;
         }
-        .pillar::before {
+        .nav__link::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--white);
+            position: absolute; left: 0; bottom: -5px;
+            width: 100%; height: 1px;
+            background: var(--ink);
             transform: scaleX(0);
+            transform-origin: right;
             transition: transform 0.4s var(--ease);
         }
-        .pillar:hover {
-            background: var(--gray-700);
-            transform: translateY(-4px);
-        }
-        .pillar:hover::before { transform: scaleX(1); }
-        .pillar__icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--gray-600);
-            border-radius: 50%;
-            transition: all 0.4s var(--ease);
-        }
-        .pillar:hover .pillar__icon {
-            background: var(--white);
-            border-color: var(--white);
-        }
-        .pillar__icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--gray-300);
-            stroke-width: 1.5;
-            fill: none;
-            transition: stroke 0.4s var(--ease);
-        }
-        .pillar:hover .pillar__icon svg { stroke: var(--black); }
-        .pillar__title {
-            font-family: var(--font-display);
-            font-size: 1.375rem;
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-        .pillar__desc {
-            font-size: 0.875rem;
-            line-height: 1.7;
-            color: var(--gray-400);
-        }
-
-        /* METHOD */
-        .method {
-            background: var(--gray-800);
-            padding: 48px 40px;
-            text-align: center;
-        }
-        .method__label {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 24px;
-        }
-        .method__equation {
-            font-family: var(--font-display);
-            font-size: clamp(1.25rem, 3vw, 2rem);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-            margin-bottom: 20px;
-        }
-        .method__op { color: var(--gray-600); font-style: italic; }
-        .method__result { color: var(--white); }
-        .method__tagline {
-            font-family: var(--font-display);
-            font-size: 1.0625rem;
-            font-style: italic;
-            color: var(--gray-500);
-            margin-bottom: 8px;
-        }
-        .method__tagline strong { color: var(--white); font-weight: 500; }
-        .method__sub {
-            font-size: 0.8125rem;
-            color: var(--gray-500);
-        }
-
-        /* ABOUT */
-        .about {
-            padding: 100px 0;
-            background: var(--cream);
-            color: var(--black);
-        }
-        .about__grid {
-            display: grid;
-            grid-template-columns: 0.9fr 1.1fr;
-            gap: 64px;
-            align-items: center;
-        }
-        .about__image { position: relative; }
-        .about__image img {
-            width: 100%;
-            aspect-ratio: 1 / 1.15;
-            object-fit: cover;
-            object-position: center top;
-        }
-        .about__image::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: -12px;
-            right: 12px;
-            bottom: 12px;
-            border: 1px solid var(--gray-300);
-            z-index: -1;
-        }
-        .about__eyebrow {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 12px;
-        }
-        .about__title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 500;
-            line-height: 1.15;
-            margin-bottom: 24px;
-        }
-        .about__title span {
-            font-style: italic;
-            color: var(--gray-500);
-        }
-        .about__text {
-            font-size: 0.9375rem;
-            line-height: 1.85;
-            color: var(--gray-600);
-            margin-bottom: 20px;
-        }
-        .about__credentials {
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid var(--gray-200);
-        }
-        .about__credentials-label {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 12px;
-        }
-        .about__credentials-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 20px;
-        }
-        .about__credential {
-            font-size: 0.8125rem;
-            color: var(--gray-600);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .about__credential::before {
-            content: '✓';
+        .nav__link:hover { color: var(--ink); }
+        .nav__link:hover::after { transform: scaleX(1); transform-origin: left; }
+        .nav__meta {
+            display: flex; align-items: center; gap: 24px;
             font-size: 0.6875rem;
-            font-weight: 700;
-            color: var(--gray-500);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
         }
-        .about__sig {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            font-style: italic;
-            color: var(--gray-600);
-            margin-top: 28px;
-        }
-        .about__loc {
-            font-size: 0.8125rem;
-            color: var(--gray-500);
-            margin-top: 4px;
-        }
-
-        /* TRANSFORM */
-        .transform { padding: 100px 0; }
-        .transform__grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
-        }
-        .transform__title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 500;
-            line-height: 1.15;
-            margin-bottom: 24px;
-        }
-        .transform__title span {
-            font-style: italic;
-            color: var(--gray-400);
-        }
-        .transform__text {
-            font-size: 0.9375rem;
-            line-height: 1.85;
-            color: var(--gray-500);
-            margin-bottom: 28px;
-        }
-        .transform__list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-        .transform__list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            font-size: 0.875rem;
-            color: var(--gray-400);
-            line-height: 1.6;
-        }
-        .transform__list li::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background: var(--gray-600);
-            border-radius: 50%;
-            margin-top: 7px;
-            flex-shrink: 0;
-        }
-        .transform__quote {
-            background: var(--gray-800);
-            border-left: 2px solid var(--gray-600);
-            padding: 40px;
-        }
-        .transform__quote-text {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-style: italic;
-            line-height: 1.55;
-            color: var(--cream);
-            margin-bottom: 20px;
-        }
-        .transform__quote-author {
-            font-size: 0.8125rem;
-            color: var(--gray-500);
-        }
-
-        /* CAPTURE */
-        .capture {
-            padding: 80px 0;
-            background: var(--gray-800);
-        }
-        .capture__inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
-        }
-        .capture__title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 2.25rem);
-            font-weight: 500;
-            line-height: 1.15;
-            margin-bottom: 20px;
-        }
-        .capture__title span {
-            font-style: italic;
-            color: var(--gray-400);
-        }
-        .capture__text {
-            font-size: 0.9375rem;
-            color: var(--gray-500);
-            margin-bottom: 20px;
-        }
-        .capture__list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .capture__list li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8125rem;
-            color: var(--gray-400);
-        }
-        .capture__list li::before {
-            content: '✓';
+        .nav__cta {
+            padding: 10px 22px;
+            border: 1px solid var(--line);
+            border-radius: 100px;
             font-size: 0.6875rem;
-            font-weight: 700;
-            color: var(--gray-500);
-        }
-        .capture__form {
-            background: var(--gray-700);
-            padding: 36px;
-        }
-        .capture__form-title {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .form-group { margin-bottom: 14px; }
-        .form-label {
-            display: block;
-            font-size: 0.625rem;
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 6px;
+            color: var(--ink);
+            transition: all 0.35s var(--ease);
         }
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--gray-800);
-            border: 1px solid var(--gray-600);
-            color: var(--cream);
-            font-size: 0.9375rem;
-            font-family: inherit;
-            transition: border-color 0.3s ease;
+        .nav__cta:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        .nav__toggle { display: none; flex-direction: column; gap: 6px; padding: 8px; z-index: 1002; }
+        .nav__toggle span {
+            width: 26px; height: 1.5px;
+            background: var(--ink);
+            transition: all 0.35s var(--ease);
         }
-        .form-input:focus {
-            outline: none;
-            border-color: var(--gray-400);
+        .nav__toggle.is-active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .nav__toggle.is-active span:nth-child(2) { transform: translateY(-0px) rotate(-45deg); }
+        .nav__mobile {
+            position: fixed; inset: 0;
+            background: var(--bg);
+            z-index: 1001;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 clamp(24px, 8vw, 64px);
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.5s var(--ease), visibility 0.5s;
         }
-        .form-input::placeholder { color: var(--gray-600); }
-        .form-submit {
-            width: 100%;
-            margin-top: 20px;
-            justify-content: center;
+        .nav__mobile.is-active { opacity: 1; visibility: visible; }
+        .nav__mobile-link {
+            font-family: var(--display);
+            font-size: clamp(2.5rem, 9vw, 4rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.25;
+            color: var(--ink);
+            display: flex; align-items: baseline; gap: 16px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line-soft);
         }
-        .form-note {
-            font-size: 0.6875rem;
-            color: var(--gray-600);
-            text-align: center;
-            margin-top: 12px;
-        }
-        .form-success {
-            display: none;
-            color: #4ade80;
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.875rem;
-        }
-        .form-error {
-            display: none;
-            color: #f87171;
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.875rem;
+        .nav__mobile-link span {
+            font-family: var(--serif); font-style: italic;
+            font-size: 0.9rem; color: var(--ink-faint);
         }
 
-        /* CTA */
-        .cta {
-            padding: 100px 0;
-            text-align: center;
+        /* ---------- hero ---------- */
+        .hero {
+            min-height: 100svh;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 140px 0 0;
+            position: relative;
         }
-        .cta__inner { max-width: 580px; margin: 0 auto; }
-        .cta__eyebrow {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.35em;
+        .hero__top {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: end;
+            margin-bottom: clamp(40px, 6vh, 72px);
+        }
+        .hero__eyebrow { margin-bottom: 28px; }
+        .hero__intro {
+            max-width: 420px;
+            font-size: 0.9375rem;
+            line-height: 1.8;
+            color: var(--ink-dim);
+        }
+        .hero__intro strong { color: var(--ink); font-weight: 500; }
+        .hero__portrait {
+            width: clamp(120px, 14vw, 180px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            padding: 6px;
+        }
+        .hero__portrait img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: grayscale(20%);
+        }
+        .hero__title {
+            font-size: clamp(3.5rem, 13.5vw, 12.5rem);
+            border-bottom: 1px solid var(--line-soft);
+            padding-bottom: clamp(24px, 4vh, 48px);
+        }
+        .hero__title .line { display: block; overflow: hidden; }
+        .hero__title .line span {
+            display: block;
+            transform: translateY(110%);
+            animation: lineUp 1.1s var(--ease) forwards;
+        }
+        .hero__title .line:nth-child(2) span { animation-delay: 0.12s; }
+        .hero__title .line--right { text-align: right; }
+        @keyframes lineUp { to { transform: none; } }
+        .hero__bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0 24px;
+            font-size: 0.6875rem;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 20px;
+            color: var(--ink-faint);
         }
-        .cta__title {
-            font-family: var(--font-display);
-            font-size: clamp(2.25rem, 6vw, 3.5rem);
+        .hero__scroll { display: flex; align-items: center; gap: 10px; }
+        .hero__scroll svg { width: 12px; height: 12px; animation: drift 2.2s ease infinite; }
+        @keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+        /* ---------- marquee ---------- */
+        .marquee {
+            border-top: 1px solid var(--line-soft);
+            border-bottom: 1px solid var(--line-soft);
+            padding: 22px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee__track {
+            display: inline-flex;
+            animation: marquee 32s linear infinite;
+        }
+        .marquee__item {
+            display: inline-flex; align-items: center; gap: 40px;
+            padding-right: 40px;
+            font-family: var(--display);
+            font-size: clamp(1rem, 2vw, 1.375rem);
             font-weight: 500;
-            line-height: 1.05;
-            margin-bottom: 20px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-dim);
         }
-        .cta__title span {
-            font-style: italic;
-            color: var(--gray-400);
+        .marquee__item em {
+            font-family: var(--serif); font-style: italic;
+            text-transform: none; letter-spacing: 0;
+            color: var(--accent);
         }
-        .cta__text {
-            font-size: 1rem;
-            color: var(--gray-500);
+        .marquee__item::after { content: '◆'; font-size: 0.5em; color: var(--ink-faint); }
+        @keyframes marquee { to { transform: translateX(-50%); } }
+
+        /* ---------- section scaffolding ---------- */
+        .section { padding: clamp(96px, 14vh, 160px) 0; }
+        .section__head {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            gap: 32px;
+            margin-bottom: clamp(48px, 8vh, 88px);
+        }
+        .section__title { font-size: clamp(2.25rem, 5.5vw, 4.25rem); max-width: 14em; }
+        .section__index {
+            font-family: var(--serif); font-style: italic;
+            font-size: 1rem; color: var(--ink-faint);
+            white-space: nowrap;
+        }
+
+        /* ---------- about ---------- */
+        .about__grid {
+            display: grid;
+            grid-template-columns: minmax(280px, 460px) 1fr;
+            gap: clamp(48px, 7vw, 110px);
+            align-items: start;
+        }
+        .about__media { position: sticky; top: 120px; }
+        .about__photo {
+            aspect-ratio: 4 / 4.6;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .about__photo img {
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center top;
+            filter: grayscale(15%);
+            transform: scale(1.06);
+            transition: transform 1.4s var(--ease), filter 0.8s ease;
+        }
+        .about__photo:hover img { transform: scale(1); filter: grayscale(0); }
+        .about__caption {
+            display: flex; justify-content: space-between;
+            margin-top: 14px;
+            font-size: 0.6875rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+        }
+        .about__lede {
+            font-family: var(--display);
+            font-size: clamp(1.5rem, 2.8vw, 2.125rem);
+            font-weight: 500;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
             margin-bottom: 36px;
         }
-
-        /* CONTACT */
-        .contact {
-            padding: 80px 0;
-            background: var(--cream);
-            color: var(--black);
+        .about__lede em {
+            font-family: var(--serif); font-style: italic; font-weight: 400;
+            color: var(--accent);
         }
+        .about__text {
+            font-size: 0.9875rem;
+            line-height: 1.9;
+            color: var(--ink-dim);
+            max-width: 560px;
+            margin-bottom: 22px;
+        }
+        .about__stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--line-soft);
+            margin-top: 48px;
+        }
+        .about__stat { padding: 28px 24px 0 0; }
+        .about__stat + .about__stat { padding-left: 24px; border-left: 1px solid var(--line-soft); }
+        .about__stat-value {
+            font-family: var(--display);
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+        }
+        .about__stat-value em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+        .about__stat-label {
+            font-size: 0.6875rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-top: 6px;
+        }
+        .about__credentials {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin-top: 48px;
+        }
+        .about__credential {
+            padding: 9px 18px;
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--ink-dim);
+            transition: all 0.35s var(--ease);
+        }
+        .about__credential:hover { border-color: var(--ink-dim); color: var(--ink); }
+
+        /* ---------- pillars (editorial rows) ---------- */
+        .pillars { border-top: 1px solid var(--line-soft); }
+        .pillar {
+            display: grid;
+            grid-template-columns: 80px 1fr 1.1fr;
+            gap: clamp(24px, 4vw, 64px);
+            align-items: baseline;
+            padding: clamp(36px, 5vh, 56px) 0;
+            border-bottom: 1px solid var(--line-soft);
+            transition: padding-left 0.5s var(--ease);
+        }
+        .pillar:hover { padding-left: 16px; }
+        .pillar__num {
+            font-family: var(--serif); font-style: italic;
+            font-size: 1rem; color: var(--ink-faint);
+        }
+        .pillar__name {
+            font-family: var(--display);
+            font-size: clamp(2rem, 5vw, 3.75rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            transition: color 0.4s ease;
+        }
+        .pillar:hover .pillar__name { color: var(--accent); }
+        .pillar__desc {
+            font-size: 0.9375rem;
+            line-height: 1.85;
+            color: var(--ink-dim);
+            max-width: 480px;
+        }
+
+        /* ---------- method band ---------- */
+        .method {
+            background: var(--paper);
+            color: var(--paper-ink);
+            padding: clamp(96px, 14vh, 150px) 0;
+            text-align: center;
+        }
+        .method .eyebrow { justify-content: center; color: var(--paper-dim); margin-bottom: 40px; }
+        .method__equation {
+            font-family: var(--display);
+            font-size: clamp(1.75rem, 4.5vw, 3.5rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            display: flex; align-items: baseline; justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            margin-bottom: 44px;
+        }
+        .method__op { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--paper-dim); }
+        .method__result {
+            font-family: var(--serif); font-style: italic; font-weight: 400;
+            border-bottom: 2px solid var(--paper-ink);
+        }
+        .method__tagline {
+            font-family: var(--serif); font-style: italic;
+            font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+            color: var(--paper-dim);
+            max-width: 36em;
+            margin: 0 auto;
+        }
+        .method__tagline strong { color: var(--paper-ink); font-weight: 400; }
+
+        /* ---------- focus list ---------- */
+        .focus__row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 24px;
+            padding: clamp(28px, 4vh, 44px) 0;
+            border-bottom: 1px solid var(--line-soft);
+            position: relative;
+        }
+        .focus__row:first-of-type { border-top: 1px solid var(--line-soft); }
+        .focus__main { display: flex; align-items: baseline; gap: clamp(20px, 3vw, 48px); }
+        .focus__num { font-family: var(--serif); font-style: italic; font-size: 0.9375rem; color: var(--ink-faint); }
+        .focus__name {
+            font-family: var(--display);
+            font-size: clamp(1.5rem, 3.6vw, 2.75rem);
+            font-weight: 500;
+            letter-spacing: -0.025em;
+            transition: transform 0.5s var(--ease), color 0.4s ease;
+        }
+        .focus__row:hover .focus__name { transform: translateX(12px); color: var(--accent); }
+        .focus__desc {
+            font-size: 0.875rem;
+            color: var(--ink-dim);
+            max-width: 340px;
+            text-align: right;
+        }
+        .focus__note {
+            margin-top: 28px;
+            font-family: var(--serif); font-style: italic;
+            font-size: 1rem;
+            color: var(--ink-faint);
+        }
+
+        /* ---------- quote ---------- */
+        .quote { text-align: center; }
+        .quote__mark {
+            font-family: var(--serif);
+            font-size: 4rem;
+            line-height: 1;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 16px;
+        }
+        .quote__text {
+            font-family: var(--display);
+            font-size: clamp(1.625rem, 4vw, 3rem);
+            font-weight: 500;
+            line-height: 1.25;
+            letter-spacing: -0.025em;
+            max-width: 22em;
+            margin: 0 auto 32px;
+        }
+        .quote__text em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+        .quote__author { font-size: 0.8125rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+
+        /* ---------- newsletter ---------- */
+        .capture {
+            background: var(--bg-2);
+            border-top: 1px solid var(--line-soft);
+            border-bottom: 1px solid var(--line-soft);
+        }
+        .capture__grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: clamp(48px, 7vw, 110px);
+            align-items: center;
+        }
+        .capture__title { font-size: clamp(2rem, 4.5vw, 3.5rem); margin: 20px 0 24px; }
+        .capture__text { font-size: 0.9375rem; line-height: 1.85; color: var(--ink-dim); max-width: 440px; }
+        .capture__list { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+        .capture__list li {
+            display: flex; align-items: baseline; gap: 14px;
+            font-size: 0.875rem; color: var(--ink-dim);
+        }
+        .capture__list li::before { content: '→'; color: var(--accent); font-size: 0.8125rem; }
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 0.625rem; font-weight: 600;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-bottom: 10px;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 16px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 1.0625rem;
+            font-family: var(--body);
+            transition: border-color 0.4s ease;
+        }
+        .form-textarea { resize: vertical; min-height: 90px; }
+        .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--ink); }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--ink-faint); }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            padding: 18px 40px;
+            border-radius: 100px;
+            background: var(--ink);
+            color: var(--bg);
+            font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            transition: all 0.4s var(--ease);
+        }
+        .btn:hover { background: var(--accent); transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.5; cursor: wait; transform: none; }
+        .btn svg { width: 13px; height: 13px; transition: transform 0.4s var(--ease); }
+        .btn:hover svg { transform: translateX(4px); }
+        .form-submit { width: 100%; margin-top: 28px; }
+        .form-note { font-size: 0.6875rem; color: var(--ink-faint); text-align: center; margin-top: 14px; }
+        .form-success { display: none; color: #9DC892; text-align: center; margin-top: 14px; font-size: 0.875rem; }
+        .form-error { display: none; color: #D08A8A; text-align: center; margin-top: 14px; font-size: 0.875rem; }
+
+        /* ---------- contact ---------- */
         .contact__grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 64px;
+            gap: clamp(48px, 7vw, 110px);
         }
-        .contact__title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        .contact__title span {
-            font-style: italic;
-            color: var(--gray-500);
-        }
-        .contact__text {
-            font-size: 0.9375rem;
-            color: var(--gray-600);
-            margin-bottom: 32px;
-            line-height: 1.8;
-        }
-        .contact__channels {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .contact__channel {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-        }
-        .contact__channel-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gray-800);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .contact__channel-icon svg {
-            width: 16px;
-            height: 16px;
-            stroke: var(--gray-300);
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .contact__channel-label {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 2px;
-        }
-        .contact__channel-value {
-            font-size: 0.9375rem;
-            color: var(--black);
-        }
-        .contact__channel-value a { color: var(--gray-600); }
-        .contact__channel-value a:hover { color: var(--black); }
-        .contact__social {
-            display: flex;
-            gap: 10px;
-            margin-top: 32px;
-        }
-        .contact__social-link {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--gray-300);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .contact__social-link:hover {
-            background: var(--gray-800);
-            border-color: var(--gray-800);
-        }
-        .contact__social-link svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--gray-600);
-            transition: fill 0.3s ease;
-        }
-        .contact__social-link:hover svg { fill: var(--white); }
-        .contact__form-wrap {
-            background: var(--gray-800);
-            padding: 36px;
-        }
-        .contact__form-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            color: var(--cream);
-            margin-bottom: 24px;
-        }
-        .contact__form .form-label { color: var(--gray-500); }
-        .contact__form .form-input,
-        .contact__form .form-textarea {
-            background: var(--gray-700);
-            border-color: var(--gray-600);
-            color: var(--cream);
-        }
-        .contact__form .form-input:focus,
-        .contact__form .form-textarea:focus {
-            border-color: var(--gray-400);
-        }
-        .contact__form .form-input::placeholder,
-        .contact__form .form-textarea::placeholder {
-            color: var(--gray-600);
-        }
-        .form-textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--gray-800);
-            border: 1px solid var(--gray-600);
-            color: var(--cream);
-            font-size: 0.9375rem;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 100px;
-            transition: border-color 0.3s ease;
-        }
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--gray-400);
-        }
+        .contact__title { font-size: clamp(2.5rem, 6vw, 4.5rem); margin: 20px 0 28px; }
+        .contact__text { font-size: 0.9375rem; line-height: 1.85; color: var(--ink-dim); max-width: 400px; margin-bottom: 44px; }
+        .contact__detail { padding: 20px 0; border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: baseline; }
+        .contact__detail-label { font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+        .contact__detail-value { font-size: 0.9375rem; color: var(--ink); transition: color 0.3s ease; }
+        a.contact__detail-value:hover { color: var(--accent); }
 
-        /* FOOTER */
-        .footer {
-            padding: 64px 0 28px;
-            border-top: 1px solid var(--gray-800);
-        }
-        .footer__grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+        /* ---------- footer ---------- */
+        .footer { padding: clamp(72px, 10vh, 110px) 0 0; overflow: hidden; }
+        .footer__top {
+            display: flex; justify-content: space-between; align-items: flex-start;
             gap: 40px;
-            margin-bottom: 48px;
+            padding-bottom: 64px;
         }
-        .footer__brand { max-width: 240px; }
-        .footer__logo {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        .footer__logo span { color: var(--gray-500); font-style: italic; }
         .footer__tagline {
-            font-family: var(--font-display);
-            font-size: 0.875rem;
-            font-style: italic;
-            color: var(--gray-600);
+            font-family: var(--serif); font-style: italic;
+            font-size: clamp(1.25rem, 2.4vw, 1.625rem);
+            color: var(--ink-dim);
+            max-width: 18em;
+            line-height: 1.45;
         }
-        .footer__nav-title {
-            font-size: 0.625rem;
-            font-weight: 600;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 16px;
-        }
-        .footer__nav-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .footer__nav-link {
+        .footer__social { display: flex; flex-direction: column; gap: 10px; text-align: right; }
+        .footer__social a {
             font-size: 0.8125rem;
-            color: var(--gray-500);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink-dim);
             transition: color 0.3s ease;
         }
-        .footer__nav-link:hover { color: var(--cream); }
+        .footer__social a:hover { color: var(--ink); }
+        .footer__wordmark {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: clamp(3.5rem, 14.5vw, 13.5rem);
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            text-align: center;
+            color: var(--ink);
+            opacity: 0.95;
+            white-space: nowrap;
+        }
+        .footer__wordmark em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--ink-faint); }
         .footer__bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 24px;
-            border-top: 1px solid var(--gray-800);
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 16px; flex-wrap: wrap;
+            padding: 24px 0 28px;
+            margin-top: -10px;
+            border-top: 1px solid var(--line-soft);
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
         }
-        .footer__copy {
-            font-size: 0.75rem;
-            color: var(--gray-600);
-        }
-        .footer__legal {
-            display: flex;
-            gap: 24px;
-        }
-        .footer__legal-link {
-            font-size: 0.75rem;
-            color: var(--gray-600);
-            transition: color 0.3s ease;
-        }
-        .footer__legal-link:hover { color: var(--cream); }
+        .footer__bottom a:hover { color: var(--ink); }
 
-        /* ANIMATIONS */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* RESPONSIVE */
+        /* ---------- responsive ---------- */
         @media (max-width: 1024px) {
-            .pillars__grid { grid-template-columns: 1fr; gap: 16px; }
-            .about__grid, .transform__grid, .capture__inner, .contact__grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .about__image { max-width: 360px; margin: 0 auto; }
-            .footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-            .footer__brand { grid-column: 1 / -1; }
+            .about__grid, .capture__grid, .contact__grid { grid-template-columns: 1fr; }
+            .about__media { position: static; max-width: 420px; }
+            .pillar { grid-template-columns: 48px 1fr; }
+            .pillar__desc { grid-column: 2; }
         }
         @media (max-width: 768px) {
-            .nav__menu, .nav__cta { display: none; }
+            .nav__menu, .nav__meta { display: none; }
             .nav__toggle { display: flex; }
-            .hero { padding: 120px 0 80px; }
-            .method__equation { flex-direction: column; gap: 4px; }
-            .footer__grid { grid-template-columns: 1fr; }
-            .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
-        }
-        @media (max-width: 480px) {
-            .hero__actions { flex-direction: column; align-items: flex-start; gap: 14px; }
-            .hero__actions .btn { width: 100%; justify-content: center; }
-            .pillar { padding: 36px 24px; }
-            .about__image::before { top: -8px; left: -8px; right: 8px; bottom: 8px; }
+            .hero__top { grid-template-columns: 1fr; }
+            .hero__portrait { order: -1; }
+            .section__head { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .focus__row { grid-template-columns: 1fr; gap: 10px; }
+            .focus__desc { text-align: left; }
+            .about__stats { grid-template-columns: 1fr; }
+            .about__stat + .about__stat { padding-left: 0; border-left: none; border-top: 1px solid var(--line-soft); margin-top: 20px; padding-top: 20px; }
+            .footer__top { flex-direction: column; }
+            .footer__social { text-align: left; }
         }
     </style>
 </head>
 <body>
+
+    <div class="loader" id="loader"><span class="loader__word">OneStandard</span></div>
+
     <nav class="nav" id="nav">
         <div class="container">
             <div class="nav__inner">
-                <a href="#" class="nav__logo">One<span>Standard</span></a>
+                <a href="#" class="nav__logo">Tyler Harper <em>— OneStandard</em></a>
                 <ul class="nav__menu">
-                    <li><a href="#pillars" class="nav__link">The Standard</a></li>
                     <li><a href="#about" class="nav__link">About</a></li>
-                    <li><a href="#transform" class="nav__link">Who It's For</a></li>
+                    <li><a href="#standard" class="nav__link">The Standard</a></li>
+                    <li><a href="#focus" class="nav__link">Focus</a></li>
                     <li><a href="#contact" class="nav__link">Contact</a></li>
                 </ul>
-                <a href="#capture" class="nav__cta">Join the Movement</a>
-                <button class="nav__toggle" aria-label="Menu">
-                    <span></span><span></span><span></span>
+                <div class="nav__meta">
+                    <span id="localTime">Chicago —:—</span>
+                    <a href="#capture" class="nav__cta">Newsletter</a>
+                </div>
+                <button class="nav__toggle" id="navToggle" aria-label="Menu">
+                    <span></span><span></span>
                 </button>
             </div>
         </div>
     </nav>
 
     <div class="nav__mobile" id="mobileMenu">
-        <a href="#pillars" class="nav__mobile-link">The Standard</a>
-        <a href="#about" class="nav__mobile-link">About</a>
-        <a href="#transform" class="nav__mobile-link">Who It's For</a>
-        <a href="#contact" class="nav__mobile-link">Contact</a>
-        <a href="#capture" class="btn btn--primary" style="margin-top: auto;">Join the Movement</a>
+        <a href="#about" class="nav__mobile-link">About <span>01</span></a>
+        <a href="#standard" class="nav__mobile-link">The Standard <span>02</span></a>
+        <a href="#focus" class="nav__mobile-link">Focus <span>03</span></a>
+        <a href="#capture" class="nav__mobile-link">Newsletter <span>04</span></a>
+        <a href="#contact" class="nav__mobile-link">Contact <span>05</span></a>
     </div>
 
     <main>
-        <section class="hero">
+        <!-- HERO -->
+        <header class="hero">
             <div class="container">
-                <div class="hero__content">
-                    <p class="hero__eyebrow">Performance · Precision · Legacy</p>
-                    <h1 class="hero__title">There's Only <span>OneStandard</span></h1>
-                    <p class="hero__tagline">How you do anything is how you do everything.</p>
-                    <p class="hero__text">Unlock your full capability. Become who your family needs, who your work demands, and the legacy your bloodline deserves.</p>
-                    <div class="hero__actions">
-                        <a href="#capture" class="btn btn--primary">
-                            Build the Standard
-                            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
-                        <a href="#pillars" class="btn btn--ghost">Discover the Method</a>
+                <div class="hero__top">
+                    <div>
+                        <p class="eyebrow hero__eyebrow">Strategist · Consultant · Coach</p>
+                        <p class="hero__intro"><strong>I'm Tyler Harper.</strong> I help driven people and organizations close the gap between who they are and who they're capable of becoming — through faith, discipline, and hard work.</p>
+                    </div>
+                    <div class="hero__portrait">
+                        <img src="images/tyler-harper.jpg" alt="Tyler Harper">
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="quote">
-            <div class="container">
-                <div class="quote__inner">
-                    <blockquote class="quote__text">"We are what we repeatedly do. <em>Excellence, then, is not an act, but a habit.</em>"</blockquote>
-                    <cite class="quote__author">Will Durant</cite>
-                    <p class="quote__title">Summarizing Aristotle</p>
+                <h1 class="hero__title display">
+                    <span class="line"><span>Tyler</span></span>
+                    <span class="line line--right"><span>Harper<em>.</em></span></span>
+                </h1>
+                <div class="hero__bottom">
+                    <span>Marietta, GA → Chicago, IL</span>
+                    <span class="hero__scroll">Scroll
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                    </span>
+                    <span>Est. OneStandard</span>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <section class="pillars" id="pillars">
-            <div class="container">
-                <header class="section-header">
-                    <p class="section-eyebrow">The Three Pillars</p>
-                    <h2 class="section-title">What Defines <span>The Standard</span></h2>
-                </header>
-
-                <div class="pillars__grid">
-                    <article class="pillar">
-                        <div class="pillar__icon">
-                            <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
-                        </div>
-                        <h3 class="pillar__title">Faith</h3>
-                        <p class="pillar__desc">The complete belief, confidence, and action that your life has purpose and meaning to transform those around you.</p>
-                    </article>
-
-                    <article class="pillar">
-                        <div class="pillar__icon">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-                        </div>
-                        <h3 class="pillar__title">Discipline</h3>
-                        <p class="pillar__desc">The practice of training oneself resulting in controlled behavior aligned to a code or set of rules.</p>
-                    </article>
-
-                    <article class="pillar">
-                        <div class="pillar__icon">
-                            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                        </div>
-                        <h3 class="pillar__title">Hard Work</h3>
-                        <p class="pillar__desc">The understanding that you get to choose your hard, and doing so will determine the trajectory of your bloodline.</p>
-                    </article>
-                </div>
-
-                <div class="method">
-                    <p class="method__label">The Method</p>
-                    <p class="method__equation">
-                        <span>Faith</span>
-                        <span class="method__op">+</span>
-                        <span>Discipline</span>
-                        <span class="method__op">+</span>
-                        <span>Hard Work</span>
-                        <span class="method__op">=</span>
-                        <span class="method__result">Success</span>
-                    </p>
-                    <p class="method__tagline">You don't rise to the level of your goals. You fall to the level of your systems. There's only <strong>OneStandard</strong>.</p>
-                    <p class="method__sub">Standards shape outcomes. Systems sustain them.</p>
-                </div>
+        <!-- MARQUEE -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee__track" id="marqueeTrack">
+                <span class="marquee__item">Faith</span>
+                <span class="marquee__item">Discipline</span>
+                <span class="marquee__item">Hard Work</span>
+                <span class="marquee__item"><em>How you do anything is how you do everything</em></span>
             </div>
-        </section>
+        </div>
 
-        <section class="about" id="about">
+        <!-- ABOUT -->
+        <section class="section" id="about">
             <div class="container">
+                <div class="section__head reveal">
+                    <h2 class="section__title display">Built on <em>resilience</em></h2>
+                    <span class="section__index">( 01 — About )</span>
+                </div>
                 <div class="about__grid">
-                    <div class="about__image">
-                        <img src="tyler-harper.jpg" alt="Tyler Harper">
+                    <div class="about__media reveal">
+                        <div class="about__photo">
+                            <img src="images/tyler-harper.jpg" alt="Tyler Harper portrait">
+                        </div>
+                        <div class="about__caption">
+                            <span>Tyler Harper</span>
+                            <span>Chicago, IL</span>
+                        </div>
                     </div>
-                    <div class="about__content">
-                        <p class="about__eyebrow">The Standard Bearer</p>
-                        <h2 class="about__title">Built on <span>Resilience</span></h2>
-                        <p class="about__text">Tyler Harper is a strategist, consultant, and coach helping people pursue excellence in every area of life.</p>
-                        <p class="about__text">With experience consulting Fortune 500 organizations and leading high impact projects across finance and operations, including building leadership development programs for Fortune 500 middle and senior leaders and directing global teams, Tyler has developed a unique perspective on personal performance, discipline, and sustainable growth.</p>
-                        <p class="about__text">He combines professional rigor with passion for fitness, faith, and fulfillment to help individuals unlock their potential. His approach: humbly grounded, constantly learning, limitlessly ambitious.</p>
-                        
-                        <div class="about__credentials">
-                            <p class="about__credentials-label">Credentials</p>
-                            <div class="about__credentials-list">
-                                <span class="about__credential">Six Sigma Green Belt</span>
-                                <span class="about__credential">Certified AI Strategist</span>
-                                <span class="about__credential">AI Foundations Associate</span>
-                                <span class="about__credential">Series 7 & 66 Licensed</span>
-                                <span class="about__credential">Advanced Prompt Engineer</span>
+                    <div>
+                        <p class="about__lede reveal">A strategist, consultant, and coach helping people pursue <em>excellence</em> in every area of life — not as an act, but as a habit.</p>
+                        <p class="about__text reveal">With experience consulting Fortune 500 organizations and leading high-impact projects across finance and operations — from building leadership development programs for middle and senior leaders to directing global teams — I've developed a distinct perspective on personal performance, discipline, and sustainable growth.</p>
+                        <p class="about__text reveal">I combine professional rigor with a passion for fitness, faith, and fulfillment to help people unlock their full capability. My approach: humbly grounded, constantly learning, limitlessly ambitious.</p>
+                        <div class="about__stats reveal">
+                            <div class="about__stat">
+                                <p class="about__stat-value">F500</p>
+                                <p class="about__stat-label">Consulting experience</p>
+                            </div>
+                            <div class="about__stat">
+                                <p class="about__stat-value">3<em>+</em></p>
+                                <p class="about__stat-label">Pillars, one standard</p>
+                            </div>
+                            <div class="about__stat">
+                                <p class="about__stat-value">∞</p>
+                                <p class="about__stat-label">Ambition, grounded</p>
                             </div>
                         </div>
-                        
-                        <p class="about__sig">Tyler Harper</p>
-                        <p class="about__loc">From Marietta, GA · Based in Chicago, IL</p>
+                        <div class="about__credentials reveal">
+                            <span class="about__credential">Six Sigma Green Belt</span>
+                            <span class="about__credential">Certified AI Strategist</span>
+                            <span class="about__credential">AI Foundations Associate</span>
+                            <span class="about__credential">Series 7 &amp; 66 Licensed</span>
+                            <span class="about__credential">Advanced Prompt Engineer</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="transform" id="transform">
+        <!-- THE STANDARD -->
+        <section class="section pillars" id="standard">
             <div class="container">
-                <div class="transform__grid">
-                    <div class="transform__content">
-                        <h2 class="transform__title">Built for Those Ready to <span>Transform</span></h2>
-                        <p class="transform__text">This is not motivation. This is a system. A framework that empowers you to show up at your highest capability for yourself, for your family, and for everyone you serve through your life's work.</p>
-                        <ul class="transform__list">
-                            <li>Those who refuse to let mediocrity define their legacy</li>
-                            <li>Parents who want to model excellence for their children</li>
-                            <li>Leaders who understand the weight of their influence</li>
-                            <li>Anyone ready to choose the right hard over the easy decline</li>
-                            <li>Those who refuse to rely on intensity and instead build systems that last</li>
-                        </ul>
-                    </div>
-                    <div class="transform__quote">
-                        <p class="transform__quote-text">"There is no passion to be found playing small, in settling for a life that is less than the one you are capable of living."</p>
-                        <p class="transform__quote-author">Nelson Mandela</p>
-                    </div>
+                <div class="section__head reveal">
+                    <h2 class="section__title display">There's only <em>OneStandard</em></h2>
+                    <span class="section__index">( 02 — The Standard )</span>
                 </div>
+                <article class="pillar reveal">
+                    <span class="pillar__num">01</span>
+                    <h3 class="pillar__name">Faith</h3>
+                    <p class="pillar__desc">The complete belief, confidence, and action that your life has purpose and meaning — to transform those around you.</p>
+                </article>
+                <article class="pillar reveal">
+                    <span class="pillar__num">02</span>
+                    <h3 class="pillar__name">Discipline</h3>
+                    <p class="pillar__desc">The practice of training oneself, resulting in controlled behavior aligned to a code or set of rules.</p>
+                </article>
+                <article class="pillar reveal">
+                    <span class="pillar__num">03</span>
+                    <h3 class="pillar__name">Hard Work</h3>
+                    <p class="pillar__desc">The understanding that you get to choose your hard — and doing so will determine the trajectory of your bloodline.</p>
+                </article>
             </div>
         </section>
 
-        <section class="capture" id="capture">
+        <!-- METHOD -->
+        <section class="method">
             <div class="container">
-                <div class="capture__inner">
-                    <div class="capture__content">
-                        <h2 class="capture__title">Join the <span>Movement</span></h2>
-                        <p class="capture__text">Get exclusive insights, frameworks, and the discipline building strategies that create lasting transformation.</p>
-                        <ul class="capture__list">
+                <p class="eyebrow reveal">The Method</p>
+                <p class="method__equation reveal">
+                    <span>Faith</span><span class="method__op">+</span>
+                    <span>Discipline</span><span class="method__op">+</span>
+                    <span>Hard Work</span><span class="method__op">=</span>
+                    <span class="method__result">Success</span>
+                </p>
+                <p class="method__tagline reveal">You don't rise to the level of your goals. You fall to the level of your systems. <strong>Standards shape outcomes. Systems sustain them.</strong></p>
+            </div>
+        </section>
+
+        <!-- FOCUS -->
+        <section class="section" id="focus">
+            <div class="container">
+                <div class="section__head reveal">
+                    <h2 class="section__title display">Where I <em>focus</em></h2>
+                    <span class="section__index">( 03 — Focus )</span>
+                </div>
+                <div class="focus__row reveal">
+                    <div class="focus__main"><span class="focus__num">01</span><h3 class="focus__name">Strategy &amp; Consulting</h3></div>
+                    <p class="focus__desc">Operational rigor and leadership development for organizations that refuse to settle.</p>
+                </div>
+                <div class="focus__row reveal">
+                    <div class="focus__main"><span class="focus__num">02</span><h3 class="focus__name">Coaching</h3></div>
+                    <p class="focus__desc">One-on-one systems for parents, leaders, and builders ready to choose the right hard.</p>
+                </div>
+                <div class="focus__row reveal">
+                    <div class="focus__main"><span class="focus__num">03</span><h3 class="focus__name">Speaking</h3></div>
+                    <p class="focus__desc">Talks on discipline, performance, and legacy — for teams and rooms that want more.</p>
+                </div>
+                <div class="focus__row reveal">
+                    <div class="focus__main"><span class="focus__num">04</span><h3 class="focus__name">Writing</h3></div>
+                    <p class="focus__desc">Weekly frameworks on mindset and discipline, delivered through the OneStandard letter.</p>
+                </div>
+                <p class="focus__note reveal">This is not motivation. This is a system.</p>
+            </div>
+        </section>
+
+        <!-- QUOTE -->
+        <section class="section quote">
+            <div class="container">
+                <span class="quote__mark reveal">“</span>
+                <blockquote class="quote__text reveal">We are what we repeatedly do. <em>Excellence, then, is not an act, but a habit.</em></blockquote>
+                <p class="quote__author reveal">Will Durant — summarizing Aristotle</p>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER -->
+        <section class="section capture" id="capture">
+            <div class="container">
+                <div class="capture__grid">
+                    <div>
+                        <p class="eyebrow reveal">The OneStandard Letter</p>
+                        <h2 class="capture__title display reveal">Join the <em>movement</em></h2>
+                        <p class="capture__text reveal">Exclusive insights, frameworks, and discipline-building strategies that create lasting transformation.</p>
+                        <ul class="capture__list reveal">
                             <li>Weekly mindset and discipline frameworks</li>
                             <li>First access to programs and events</li>
-                            <li>Exclusive content not shared anywhere else</li>
-                            <li>Join a community building the standard</li>
+                            <li>Content not shared anywhere else</li>
                         </ul>
                     </div>
-                    <div class="capture__form">
-                        <h3 class="capture__form-title">Start Building Today</h3>
-                        <form id="captureForm">
-                            <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <input type="text" name="first_name" class="form-input" placeholder="Your first name">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
-                            </div>
-                            <button type="submit" class="btn btn--primary form-submit">
-                                Build the Standard
-                                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </button>
-                            <p class="form-note">No spam. Unsubscribe anytime.</p>
-                            <p class="form-success">Welcome to the movement.</p>
-                            <p class="form-error">Something went wrong. Try again.</p>
-                        </form>
-                    </div>
+                    <form id="captureForm" class="reveal">
+                        <div class="form-group">
+                            <label class="form-label" for="cap-name">First name</label>
+                            <input type="text" id="cap-name" name="first_name" class="form-input" placeholder="Your first name" autocomplete="given-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cap-email">Email</label>
+                            <input type="email" id="cap-email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required>
+                        </div>
+                        <button type="submit" class="btn form-submit">
+                            Build the Standard
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                        <p class="form-note">No spam. Unsubscribe anytime.</p>
+                        <p class="form-success">Welcome to the movement.</p>
+                        <p class="form-error">Something went wrong. Try again.</p>
+                    </form>
                 </div>
             </div>
         </section>
 
-        <section class="cta">
-            <div class="container">
-                <div class="cta__inner">
-                    <p class="cta__eyebrow">Ready?</p>
-                    <h2 class="cta__title">Stop Settling for <span>Less</span></h2>
-                    <p class="cta__text">The standard is not set by others. It is built by you.</p>
-                    <a href="#capture" class="btn btn--primary">
-                        Build the Standard
-                        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact" id="contact">
+        <!-- CONTACT -->
+        <section class="section" id="contact">
             <div class="container">
                 <div class="contact__grid">
-                    <div class="contact__info">
-                        <h2 class="contact__title">Let's <span>Connect</span></h2>
-                        <p class="contact__text">Interested in coaching, speaking, or partnerships? I want to hear from you.</p>
-                        
-                        <div class="contact__channels">
-                            <div class="contact__channel">
-                                <div class="contact__channel-icon">
-                                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                                </div>
-                                <div>
-                                    <p class="contact__channel-label">Email</p>
-                                    <p class="contact__channel-value"><a href="mailto:One.Standard@yahoo.com">One.Standard@yahoo.com</a></p>
-                                </div>
+                    <div>
+                        <p class="eyebrow reveal">( 04 — Contact )</p>
+                        <h2 class="contact__title display reveal">Let's <em>connect</em></h2>
+                        <p class="contact__text reveal">Coaching, speaking, consulting, or partnerships — I want to hear from you.</p>
+                        <div class="reveal">
+                            <div class="contact__detail">
+                                <span class="contact__detail-label">Email</span>
+                                <a href="mailto:One.Standard@yahoo.com" class="contact__detail-value">One.Standard@yahoo.com</a>
                             </div>
-                            <div class="contact__channel">
-                                <div class="contact__channel-icon">
-                                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                </div>
-                                <div>
-                                    <p class="contact__channel-label">Based In</p>
-                                    <p class="contact__channel-value">Chicago, Illinois</p>
-                                </div>
+                            <div class="contact__detail">
+                                <span class="contact__detail-label">Based in</span>
+                                <span class="contact__detail-value">Chicago, Illinois</span>
+                            </div>
+                            <div class="contact__detail">
+                                <span class="contact__detail-label">Instagram</span>
+                                <a href="https://instagram.com/one.standard" target="_blank" rel="noopener" class="contact__detail-value">@one.standard</a>
+                            </div>
+                            <div class="contact__detail">
+                                <span class="contact__detail-label">LinkedIn</span>
+                                <a href="https://linkedin.com/in/tylerharper" target="_blank" rel="noopener" class="contact__detail-value">/in/tylerharper</a>
                             </div>
                         </div>
-
-                        <div class="contact__social">
-                            <a href="https://instagram.com/one.standard" class="contact__social-link" aria-label="Instagram" target="_blank" rel="noopener">
-                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                            </a>
-                            <a href="https://tiktok.com/@one.standard" class="contact__social-link" aria-label="TikTok" target="_blank" rel="noopener">
-                                <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-                            </a>
-                            <a href="https://youtube.com/@onestandard" class="contact__social-link" aria-label="YouTube" target="_blank" rel="noopener">
-                                <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-                            </a>
-                            <a href="https://linkedin.com/in/tylerharper" class="contact__social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
-                                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                            </a>
+                    </div>
+                    <form id="contactForm" class="reveal">
+                        <div class="form-group">
+                            <label class="form-label" for="ct-name">Name</label>
+                            <input type="text" id="ct-name" name="first_name" class="form-input" placeholder="Your name" autocomplete="name" required>
                         </div>
-                    </div>
-
-                    <div class="contact__form-wrap">
-                        <h3 class="contact__form-title">Send a Message</h3>
-                        <form id="contactForm" class="contact__form">
-                            <div class="form-group">
-                                <label class="form-label">Name</label>
-                                <input type="text" name="first_name" class="form-input" placeholder="Your name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Message</label>
-                                <textarea name="message" class="form-textarea" placeholder="Your message..." required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn--primary form-submit">Send Message</button>
-                            <p class="form-success">Message received. I'll be in touch.</p>
-                            <p class="form-error">Something went wrong. Try again.</p>
-                        </form>
-                    </div>
+                        <div class="form-group">
+                            <label class="form-label" for="ct-email">Email</label>
+                            <input type="email" id="ct-email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="ct-msg">Message</label>
+                            <textarea id="ct-msg" name="message" class="form-textarea" placeholder="What's on your mind?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn form-submit">Send Message</button>
+                        <p class="form-success">Message received. I'll be in touch.</p>
+                        <p class="form-error">Something went wrong. Try again.</p>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <p class="footer__logo">One<span>Standard</span></p>
-                    <p class="footer__tagline">How you do anything is how you do everything.</p>
+            <div class="footer__top">
+                <p class="footer__tagline">How you do anything is how you do everything.</p>
+                <div class="footer__social">
+                    <a href="https://instagram.com/one.standard" target="_blank" rel="noopener">Instagram</a>
+                    <a href="https://tiktok.com/@one.standard" target="_blank" rel="noopener">TikTok</a>
+                    <a href="https://youtube.com/@onestandard" target="_blank" rel="noopener">YouTube</a>
+                    <a href="https://linkedin.com/in/tylerharper" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
-                <nav>
-                    <p class="footer__nav-title">Navigate</p>
-                    <ul class="footer__nav-list">
-                        <li><a href="#pillars" class="footer__nav-link">The Standard</a></li>
-                        <li><a href="#about" class="footer__nav-link">About</a></li>
-                        <li><a href="#transform" class="footer__nav-link">Who It's For</a></li>
-                        <li><a href="#contact" class="footer__nav-link">Contact</a></li>
-                    </ul>
-                </nav>
-                <nav>
-                    <p class="footer__nav-title">Coming Soon</p>
-                    <ul class="footer__nav-list">
-                        <li><span class="footer__nav-link" style="opacity:0.4">Coaching</span></li>
-                        <li><span class="footer__nav-link" style="opacity:0.4">Speaking</span></li>
-                        <li><span class="footer__nav-link" style="opacity:0.4">Podcast</span></li>
-                        <li><span class="footer__nav-link" style="opacity:0.4">Resources</span></li>
-                    </ul>
-                </nav>
-                <nav>
-                    <p class="footer__nav-title">Connect</p>
-                    <ul class="footer__nav-list">
-                        <li><a href="https://instagram.com/one.standard" class="footer__nav-link" target="_blank" rel="noopener">Instagram</a></li>
-                        <li><a href="https://tiktok.com/@one.standard" class="footer__nav-link" target="_blank" rel="noopener">TikTok</a></li>
-                        <li><a href="https://youtube.com/@onestandard" class="footer__nav-link" target="_blank" rel="noopener">YouTube</a></li>
-                        <li><a href="https://linkedin.com/in/tylerharper" class="footer__nav-link" target="_blank" rel="noopener">LinkedIn</a></li>
-                    </ul>
-                </nav>
             </div>
+            <p class="footer__wordmark reveal">One<em>Standard</em></p>
             <div class="footer__bottom">
-                <p class="footer__copy">© 2026 OneStandard. All rights reserved.</p>
-                <div class="footer__legal">
-                    <a href="#" class="footer__legal-link">Privacy</a>
-                    <a href="#" class="footer__legal-link">Terms</a>
-                </div>
+                <span>© 2026 OneStandard · Tyler Harper</span>
+                <span>Faith · Discipline · Hard Work</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // Navigation
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => nav.classList.toggle('nav--scrolled', scrollY > 60));
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loader').classList.add('is-done'), 600);
+        });
+        // Failsafe in case load never fires cleanly
+        setTimeout(() => document.getElementById('loader').classList.add('is-done'), 3000);
 
-        const toggle = document.querySelector('.nav__toggle');
+        // Nav scrolled state
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => nav.classList.toggle('nav--scrolled', scrollY > 60), { passive: true });
+
+        // Mobile menu
+        const toggle = document.getElementById('navToggle');
         const mobile = document.getElementById('mobileMenu');
-        toggle?.addEventListener('click', () => {
+        toggle.addEventListener('click', () => {
             const open = mobile.classList.toggle('is-active');
+            toggle.classList.toggle('is-active', open);
             document.body.style.overflow = open ? 'hidden' : '';
         });
-        mobile?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        mobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
             mobile.classList.remove('is-active');
+            toggle.classList.remove('is-active');
             document.body.style.overflow = '';
         }));
 
-        // Smooth scroll
+        // Smooth anchor scroll
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (!target) return;
                 e.preventDefault();
-                document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+                target.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // Beehiiv Integration
+        // Duplicate marquee content for seamless loop
+        const track = document.getElementById('marqueeTrack');
+        track.innerHTML += track.innerHTML;
+
+        // Scroll reveal
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('is-in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Chicago local time in nav
+        const timeEl = document.getElementById('localTime');
+        function tick() {
+            timeEl.textContent = 'Chicago ' + new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'America/Chicago'
+            }).format(new Date());
+        }
+        tick();
+        setInterval(tick, 30000);
+
+        // Beehiiv integration
         const BEEHIIV_EMBED_URL = 'https://embeds.beehiiv.com/7c21383f-9ce4-46bb-ad92-0ad381e29357';
-        
+
         async function subscribeToBeehiiv(form, email, firstName = '') {
             const successEl = form.querySelector('.form-success');
             const errorEl = form.querySelector('.form-error');
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            
-            // Reset
+
             successEl.style.display = 'none';
             errorEl.style.display = 'none';
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Sending...';
-            
+
             try {
-                // Create hidden iframe for form submission
                 const iframe = document.createElement('iframe');
                 iframe.name = 'beehiiv_submit_' + Date.now();
                 iframe.style.display = 'none';
                 document.body.appendChild(iframe);
-                
-                // Create form to submit to Beehiiv
+
                 const beehiivForm = document.createElement('form');
                 beehiivForm.method = 'POST';
                 beehiivForm.action = BEEHIIV_EMBED_URL;
                 beehiivForm.target = iframe.name;
-                
+
                 const emailInput = document.createElement('input');
                 emailInput.name = 'email';
                 emailInput.value = email;
                 beehiivForm.appendChild(emailInput);
-                
+
                 if (firstName) {
                     const nameInput = document.createElement('input');
                     nameInput.name = 'fields[first_name]';
                     nameInput.value = firstName;
                     beehiivForm.appendChild(nameInput);
                 }
-                
-                // UTM tracking
+
                 const utmSource = document.createElement('input');
                 utmSource.name = 'utm_source';
                 utmSource.value = 'onestandard_website';
                 beehiivForm.appendChild(utmSource);
-                
+
                 document.body.appendChild(beehiivForm);
                 beehiivForm.submit();
-                
-                // Clean up and show success
+
                 setTimeout(() => {
                     document.body.removeChild(beehiivForm);
                     document.body.removeChild(iframe);
                 }, 1000);
-                
+
                 successEl.style.display = 'block';
                 form.reset();
-                
             } catch (error) {
                 errorEl.style.display = 'block';
             }
-            
+
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
 
-        // Capture form
-        document.getElementById('captureForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('captureForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
-            const email = form.querySelector('input[name="email"]').value;
-            const firstName = form.querySelector('input[name="first_name"]')?.value || '';
-            await subscribeToBeehiiv(form, email, firstName);
+            await subscribeToBeehiiv(form, form.email.value, form.first_name.value || '');
         });
 
-        // Contact form
-        document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
-            const email = form.querySelector('input[name="email"]').value;
-            const firstName = form.querySelec
+            await subscribeToBeehiiv(form, form.email.value, form.first_name.value || '');
+        });
+    </script>
+</body>
+</html>

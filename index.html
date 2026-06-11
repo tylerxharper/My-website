@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyler Harper | Business Strategist. AI-Native Product Builder.</title>
-    <meta name="description" content="Tyler Harper builds systems that turn capability into leverage, working at the intersection of finance, AI, and execution. Founder of The Village. One standard, applied to everything.">
+    <meta name="description" content="Tyler Harper builds systems that turn capability into leverage, working at the intersection of finance, AI, and execution. Founder of The Village. OneStandard, applied to everything.">
     <meta property="og:title" content="Tyler Harper | Business Strategist. AI-Native Product Builder.">
     <meta property="og:description" content="I build systems that turn capability into leverage.">
     <meta property="og:type" content="website">
@@ -139,7 +139,7 @@
             .plumb-divider::before { transform: none !important; transition: none; }
             .plumb-divider::after { top: calc(100% - 8px) !important; opacity: 1 !important; transition: none; }
             html { scroll-behavior: auto; }
-            .marquee__track, .hero__plumb::after, .loader__word, .hero::before { animation: none !important; }
+            .marquee__track, .loader__word, .hero::before { animation: none !important; }
             .hero__title .line span { animation: none; transform: none; }
         }
 
@@ -346,33 +346,6 @@
             text-transform: uppercase;
             color: var(--ink-faint);
         }
-        /* Plumb line: the instrument of the standard, drawing the eye down */
-        .hero__plumb {
-            position: relative;
-            width: 1px;
-            height: 64px;
-            align-self: flex-start;
-            background: linear-gradient(to bottom, var(--line), var(--line-soft) 70%, transparent);
-        }
-        .hero__plumb::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 7px;
-            height: 7px;
-            background: var(--accent);
-            transform: translateX(-50%) rotate(45deg);
-            animation: plumbDrop 3s var(--ease) infinite;
-        }
-        @keyframes plumbDrop {
-            0%   { top: -4px; opacity: 0; }
-            12%  { opacity: 1; }
-            68%  { top: calc(100% - 10px); opacity: 1; }
-            86%  { top: calc(100% - 10px); opacity: 1; }
-            100% { top: calc(100% - 10px); opacity: 0; }
-        }
-
         /* ---------- marquee ---------- */
         .marquee {
             border-top: 1px solid var(--line-soft);
@@ -877,7 +850,6 @@
             .hero__title { padding-bottom: 24px; }
             .hero__bottom { flex-wrap: wrap; gap: 10px 20px; padding: 16px 0 20px; }
             .hero__bottom > span:last-child { display: none; }
-            .hero__plumb { height: 44px; }
 
             .marquee { padding: 16px 0; }
 
@@ -969,8 +941,7 @@
                 </h1>
                 <div class="hero__bottom">
                     <span>Marietta, GA → Chicago, IL</span>
-                    <span class="hero__plumb" aria-hidden="true"></span>
-                    <span>One Standard</span>
+                    <span>OneStandard</span>
                 </div>
             </div>
         </header>
@@ -1136,7 +1107,7 @@
         <section class="section quote">
             <div class="container">
                 <blockquote class="quote__text reveal">You do not rise to the level of your ambitions. You fall to the level of your <em>systems</em>.</blockquote>
-                <p class="quote__author reveal">One standard. Applied to everything.</p>
+                <p class="quote__author reveal">OneStandard. Applied to everything.</p>
             </div>
         </section>
 

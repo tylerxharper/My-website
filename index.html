@@ -19,13 +19,11 @@
       "name": "Tyler Harper",
       "jobTitle": "Operator, Builder, Systems Thinker",
       "description": "Builder and operator working at the intersection of finance, AI, and systems design. Founder of The Village, a free leadership program for college students.",
-      "email": "mailto:One.Standard@yahoo.com",
       "address": { "@type": "PostalAddress", "addressLocality": "Chicago", "addressRegion": "IL" },
       "sameAs": [
-        "https://instagram.com/one.standard",
         "https://tiktok.com/@one.standard",
         "https://youtube.com/@onestandard",
-        "https://linkedin.com/in/tylerharper"
+        "https://linkedin.com/in/tylerjharper"
       ]
     }
     </script>
@@ -657,6 +655,17 @@
             transition: border-color 0.4s ease;
         }
         .form-textarea { resize: vertical; min-height: 90px; }
+        .form-select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236F6D64' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            padding-right: 28px;
+        }
+        .form-select:invalid { color: var(--ink-faint); }
+        .form-select option { color: var(--ink); }
         .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--ink); }
         .form-input::placeholder, .form-textarea::placeholder { color: var(--ink-faint); }
         .btn {
@@ -1065,20 +1074,12 @@
                         <p class="contact__text reveal">Building something at the intersection of finance and AI? Want The Village on your campus, or me on a stage? If it's worth doing well, I want to hear about it. And if you're building a team and this page reads like someone you need, that conversation is welcome too. The door is open.</p>
                         <div class="reveal">
                             <div class="contact__detail">
-                                <span class="contact__detail-label">Email</span>
-                                <a href="mailto:One.Standard@yahoo.com" class="contact__detail-value">One.Standard@yahoo.com</a>
-                            </div>
-                            <div class="contact__detail">
                                 <span class="contact__detail-label">Based in</span>
                                 <span class="contact__detail-value">Chicago, Illinois</span>
                             </div>
                             <div class="contact__detail">
-                                <span class="contact__detail-label">Instagram</span>
-                                <a href="https://instagram.com/one.standard" target="_blank" rel="noopener" class="contact__detail-value">@one.standard</a>
-                            </div>
-                            <div class="contact__detail">
                                 <span class="contact__detail-label">LinkedIn</span>
-                                <a href="https://linkedin.com/in/tylerharper" target="_blank" rel="noopener" class="contact__detail-value">/in/tylerharper</a>
+                                <a href="https://linkedin.com/in/tylerjharper" target="_blank" rel="noopener" class="contact__detail-value">/in/tylerjharper</a>
                             </div>
                         </div>
                     </div>
@@ -1090,6 +1091,18 @@
                         <div class="form-group">
                             <label class="form-label" for="ct-email">Email</label>
                             <input type="email" id="ct-email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="ct-type">Reason for reaching out</label>
+                            <select id="ct-type" name="inquiry_type" class="form-input form-select" required>
+                                <option value="" disabled selected>Choose one</option>
+                                <option value="General Inquiry">General inquiry</option>
+                                <option value="Opportunity">Opportunity / Join a team</option>
+                                <option value="Consulting">Consulting</option>
+                                <option value="Speaking">Speaking</option>
+                                <option value="The Village">The Village</option>
+                                <option value="Newsletter Sign-up">Newsletter sign-up</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="ct-msg">Message</label>
@@ -1110,10 +1123,9 @@
             <div class="footer__top">
                 <p class="footer__tagline">Tyler Harper is a builder and operator working at the intersection of finance, AI, and systems design, and the founder of The Village, a free leadership program for college students.</p>
                 <div class="footer__social">
-                    <a href="https://instagram.com/one.standard" target="_blank" rel="noopener">Instagram</a>
                     <a href="https://tiktok.com/@one.standard" target="_blank" rel="noopener">TikTok</a>
                     <a href="https://youtube.com/@onestandard" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://linkedin.com/in/tylerharper" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://linkedin.com/in/tylerjharper" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
             </div>
             <p class="footer__wordmark reveal">One<em>Standard</em></p>
@@ -1198,67 +1210,58 @@
         // Beehiiv integration
         const BEEHIIV_EMBED_URL = 'https://embeds.beehiiv.com/7c21383f-9ce4-46bb-ad92-0ad381e29357';
 
-        async function subscribeToBeehiiv(form, email, firstName = '') {
+        // Fire-and-forget Beehiiv subscribe via hidden iframe post
+        function beehiivPost(email, firstName = '') {
+            const iframe = document.createElement('iframe');
+            iframe.name = 'beehiiv_submit_' + Date.now();
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+
+            const beehiivForm = document.createElement('form');
+            beehiivForm.method = 'POST';
+            beehiivForm.action = BEEHIIV_EMBED_URL;
+            beehiivForm.target = iframe.name;
+
+            const emailInput = document.createElement('input');
+            emailInput.name = 'email';
+            emailInput.value = email;
+            beehiivForm.appendChild(emailInput);
+
+            if (firstName) {
+                const nameInput = document.createElement('input');
+                nameInput.name = 'fields[first_name]';
+                nameInput.value = firstName;
+                beehiivForm.appendChild(nameInput);
+            }
+
+            const utmSource = document.createElement('input');
+            utmSource.name = 'utm_source';
+            utmSource.value = 'onestandard_website';
+            beehiivForm.appendChild(utmSource);
+
+            document.body.appendChild(beehiivForm);
+            beehiivForm.submit();
+
+            setTimeout(() => {
+                document.body.removeChild(beehiivForm);
+                document.body.removeChild(iframe);
+            }, 1000);
+        }
+
+        document.getElementById('captureForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
             const successEl = form.querySelector('.form-success');
             const errorEl = form.querySelector('.form-error');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-
             successEl.style.display = 'none';
             errorEl.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Sending...';
-
             try {
-                const iframe = document.createElement('iframe');
-                iframe.name = 'beehiiv_submit_' + Date.now();
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
-
-                const beehiivForm = document.createElement('form');
-                beehiivForm.method = 'POST';
-                beehiivForm.action = BEEHIIV_EMBED_URL;
-                beehiivForm.target = iframe.name;
-
-                const emailInput = document.createElement('input');
-                emailInput.name = 'email';
-                emailInput.value = email;
-                beehiivForm.appendChild(emailInput);
-
-                if (firstName) {
-                    const nameInput = document.createElement('input');
-                    nameInput.name = 'fields[first_name]';
-                    nameInput.value = firstName;
-                    beehiivForm.appendChild(nameInput);
-                }
-
-                const utmSource = document.createElement('input');
-                utmSource.name = 'utm_source';
-                utmSource.value = 'onestandard_website';
-                beehiivForm.appendChild(utmSource);
-
-                document.body.appendChild(beehiivForm);
-                beehiivForm.submit();
-
-                setTimeout(() => {
-                    document.body.removeChild(beehiivForm);
-                    document.body.removeChild(iframe);
-                }, 1000);
-
+                beehiivPost(form.email.value, form.first_name.value || '');
                 successEl.style.display = 'block';
                 form.reset();
             } catch (error) {
                 errorEl.style.display = 'block';
             }
-
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        }
-
-        document.getElementById('captureForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const form = e.target;
-            await subscribeToBeehiiv(form, form.email.value, form.first_name.value || '');
         });
 
         // Contact form: delivers the message via FormSubmit
@@ -1276,14 +1279,26 @@
             submitBtn.innerHTML = 'Sending...';
 
             try {
-                const res = await fetch('https://formsubmit.co/ajax/One.Standard@yahoo.com', {
+                const inquiryType = form.inquiry_type.value;
+                const senderName = form.first_name.value;
+                const senderEmail = form.email.value;
+                const messageText = form.message.value;
+
+                // Newsletter sign-ups also go straight onto the list
+                if (inquiryType === 'Newsletter Sign-up') {
+                    beehiivPost(senderEmail, senderName);
+                }
+
+                // Inbox routing endpoint; swap for the FormSubmit alias once issued
+                const res = await fetch('https://formsubmit.co/ajax/tylerharper320@gmail.com', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
-                        name: form.first_name.value,
-                        email: form.email.value,
-                        message: form.message.value,
-                        _subject: 'New message from onestandard site',
+                        name: senderName,
+                        email: senderEmail,
+                        inquiry_type: inquiryType,
+                        message: messageText,
+                        _subject: inquiryType + ': ' + senderName,
                         _template: 'table'
                     })
                 });

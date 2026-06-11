@@ -22,8 +22,6 @@
       "address": { "@type": "PostalAddress", "addressLocality": "Chicago", "addressRegion": "IL" },
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of South Carolina, Darla Moore School of Business" },
       "sameAs": [
-        "https://tiktok.com/@one.standard",
-        "https://youtube.com/@onestandard",
         "https://linkedin.com/in/tylerjharper"
       ]
     }
@@ -564,6 +562,20 @@
             margin: 0 auto;
         }
         .method__tagline strong { color: var(--paper-ink); font-weight: 400; }
+        .method__partner {
+            margin: 32px auto 0;
+            max-width: 44em;
+            font-size: 0.875rem;
+            line-height: 1.8;
+            color: var(--paper-dim);
+        }
+        .method__partner a {
+            color: var(--paper-ink);
+            border-bottom: 1px solid var(--paper-dim);
+            transition: border-color 0.3s ease;
+            white-space: nowrap;
+        }
+        .method__partner a:hover { border-color: var(--paper-ink); }
 
         /* ---------- story (living resume) ---------- */
         .story__grid {
@@ -970,22 +982,22 @@
                     <article class="story-card reveal">
                         <p class="story-card__tag">Today</p>
                         <h3 class="story-card__title">Building at the edge of finance and AI</h3>
-                        <p class="story-card__text">AI solution portfolios, agentic workflows, and the intelligence systems practitioners actually use. Recent work: a 20+ use-case AI portfolio spanning fraud detection, compliance automation, and agentic orchestration, plus the financial modeling behind an agentic onboarding concept that won $1M in funding, four times the original ask.</p>
+                        <p class="story-card__text">AI solution portfolios, agentic workflows, and the intelligence systems practitioners actually use. From concept through funded build, the throughline is the same: serious capability, made usable.</p>
                     </article>
                     <article class="story-card reveal">
                         <p class="story-card__tag">The Foundation</p>
                         <h3 class="story-card__title">Wealth management &amp; institutional finance</h3>
-                        <p class="story-card__text">Where the chops come from. Inside a Fortune 100 retirement and wealth firm: enablement systems serving 500+ advisors, a national referral summit series that drove $150M+ in incremental inflows at 200%+ of target, and an adoption turnaround from 39% to 175% of full-year target in four months. Finance taught me stakes. It's still the lens I build through.</p>
+                        <p class="story-card__text">Where the chops come from. Years inside one of the country's largest retirement and wealth firms, building the enablement systems behind national advisor forces and turning stalled initiatives into wins. Finance taught me stakes. It's still the lens I build through.</p>
                     </article>
                     <article class="story-card reveal">
                         <p class="story-card__tag">Where I Execute</p>
                         <h3 class="story-card__title">Strategy &amp; transformation consulting</h3>
-                        <p class="story-card__text">My current place of execution: leading with Fortune 500 and PE-backed companies to optimize people, processes, and technology for enterprise enablement. Recent delivery includes a $1.3M platform modernization across roughly 3,000 retirement plans and $2.7B in assets, and a restructuring path projecting 27% cost savings. The rooms shifted. The standard hasn't.</p>
+                        <p class="story-card__text">My current place of execution: leading with Fortune 500 and PE-backed companies to optimize people, processes, and technology for enterprise enablement. The rooms shifted. The standard hasn't.</p>
                     </article>
                     <article class="story-card reveal">
                         <p class="story-card__tag">Community</p>
                         <h3 class="story-card__title">Founder, The Village</h3>
-                        <p class="story-card__text">A free leadership and career acceleration program for college students. Proof that the mission isn't a tagline: the systems that change trajectories, handed to people who don't have access to them yet.</p>
+                        <p class="story-card__text">A free leadership and career acceleration program launching this October: ambitious college students, connected to a curated tribe of mentors, leaders, and peers. Because no one succeeds alone.</p>
                     </article>
                     <article class="story-card story-card--wide reveal">
                         <p class="story-card__tag">The Roots</p>
@@ -1005,8 +1017,7 @@
                         <span class="about__credential">CFA Candidate</span>
                     </div>
                     <div class="about__credentials" style="margin-top: 12px;">
-                        <span class="about__credential">MVP Award from a Fortune 100 division CEO</span>
-                        <span class="about__credential">Practice representative, executive AI forum alongside Anthropic, Google &amp; NVIDIA leaders</span>
+                        <span class="about__credential">Speaker on AI topics with leading firms and tech companies</span>
                     </div>
                 </div>
             </div>
@@ -1045,9 +1056,10 @@
         <!-- THE VILLAGE -->
         <section class="method" id="village">
             <div class="container">
-                <p class="eyebrow reveal">The Village · Founder</p>
-                <p class="method__equation reveal">Access shouldn't be <span class="method__result">inherited</span>.</p>
-                <p class="method__tagline reveal">The Village is a free leadership and career acceleration program for college students. The frameworks, the mentorship, the reps: the systems that change trajectories, made available to people who don't have access to them yet. <strong>No fee. No catch. Just the elevator, sent back down.</strong></p>
+                <p class="eyebrow reveal">The Village · Founder · Launching October</p>
+                <p class="method__equation reveal">No one succeeds <span class="method__result">alone</span>.</p>
+                <p class="method__tagline reveal">The Village connects ambitious college students with a curated tribe of mentors, executives, and peers to build the skills, confidence, and network to thrive in college, career, and life. Ten weeks of live sessions, real-world skills you won't get in class, and relationships that outlast the program. Built for students hungry to grow, lead, and make an impact. <strong>No fee. No catch. Just the elevator, sent back down.</strong></p>
+                <p class="method__partner reveal">Partnerships &amp; sponsorships: help us expand The Village. We welcome the right sponsors and organizations who believe in building the next generation of leaders. <a href="#contact">Start the conversation</a></p>
             </div>
         </section>
 
@@ -1131,6 +1143,7 @@
                                 <option value="Consulting">Consulting</option>
                                 <option value="Speaking">Speaking</option>
                                 <option value="The Village">The Village</option>
+                                <option value="Partnership or Sponsorship">Partnership / Sponsorship</option>
                                 <option value="Newsletter Sign-up">Newsletter sign-up</option>
                             </select>
                         </div>
@@ -1153,8 +1166,6 @@
             <div class="footer__top">
                 <p class="footer__tagline">Tyler Harper is a builder and operator working at the intersection of finance, AI, and systems design, and the founder of The Village, a free leadership program for college students.</p>
                 <div class="footer__social">
-                    <a href="https://tiktok.com/@one.standard" target="_blank" rel="noopener">TikTok</a>
-                    <a href="https://youtube.com/@onestandard" target="_blank" rel="noopener">YouTube</a>
                     <a href="https://linkedin.com/in/tylerjharper" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
             </div>

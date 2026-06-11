@@ -136,6 +136,8 @@
         .reveal[data-delay="3"] { transition-delay: 0.3s; }
         @media (prefers-reduced-motion: reduce) {
             .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+            .plumb-divider::before { transform: none; transition: none; }
+            .plumb-divider::after { top: calc(100% - 7px); opacity: 1; transition: none; }
             html { scroll-behavior: auto; }
             .marquee__track, .hero__plumb::after, .loader__word, .hero::before { animation: none !important; }
             .hero__title .line span { animation: none; transform: none; }
@@ -400,6 +402,37 @@
         }
         .marquee__item::after { content: '◆'; font-size: 0.5em; color: var(--ink-faint); }
         @keyframes marquee { to { transform: translateX(-50%); } }
+
+        /* ---------- plumb dividers: the standard line, running the whole page ---------- */
+        .plumb-divider {
+            position: relative;
+            width: 1px;
+            height: clamp(72px, 12vh, 120px);
+            margin: 0 auto;
+        }
+        .plumb-divider::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, var(--line) 18%, var(--line) 82%, transparent);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 1.4s var(--ease);
+        }
+        .plumb-divider::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            transform: translateX(-50%) rotate(45deg);
+            opacity: 0;
+            transition: top 1.4s var(--ease) 0.15s, opacity 0.5s ease 0.15s;
+        }
+        .plumb-divider.is-in::before { transform: scaleY(1); }
+        .plumb-divider.is-in::after { top: calc(100% - 7px); opacity: 1; }
 
         /* ---------- section scaffolding ---------- */
         .section { padding: clamp(96px, 14vh, 160px) 0; }
@@ -930,6 +963,8 @@
             </div>
         </div>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- ABOUT -->
         <section class="section" id="about">
             <div class="container">
@@ -971,6 +1006,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- STORY / LIVING RESUME -->
         <section class="section" id="story">
             <div class="container">
@@ -982,7 +1019,7 @@
                     <article class="story-card reveal">
                         <p class="story-card__tag">Today</p>
                         <h3 class="story-card__title">Building at the edge of finance and AI</h3>
-                        <p class="story-card__text">AI solution portfolios, agentic workflows, and the intelligence systems practitioners actually use. From concept through funded build, the throughline is the same: serious capability, made usable.</p>
+                        <p class="story-card__text">AI solution portfolios, agentic workflows and toolsuites, and the intelligence systems people and enterprises actually get value from. From concept through deployment and measurement, the throughline is the same: serious capability, made usable, with the end user in mind.</p>
                     </article>
                     <article class="story-card reveal">
                         <p class="story-card__tag">The Foundation</p>
@@ -1023,6 +1060,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- WHAT I BUILD -->
         <section class="section pillars" id="build">
             <div class="container">
@@ -1053,6 +1092,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- THE VILLAGE -->
         <section class="method" id="village">
             <div class="container">
@@ -1063,6 +1104,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- STANDARD -->
         <section class="section quote">
             <div class="container">
@@ -1071,6 +1114,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- NEWSLETTER -->
         <section class="section capture" id="capture">
             <div class="container">
@@ -1106,6 +1151,8 @@
             </div>
         </section>
 
+
+        <div class="plumb-divider" aria-hidden="true"></div>
         <!-- CONTACT -->
         <section class="section" id="contact">
             <div class="container">
@@ -1227,7 +1274,7 @@
                 io.unobserve(e.target);
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
-        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        document.querySelectorAll('.reveal, .plumb-divider').forEach(el => io.observe(el));
 
         // Touch parity: on devices without hover, the element crossing the middle of the
         // viewport gets the same active treatment desktop gets on hover, in both directions

@@ -812,6 +812,13 @@
             color: var(--ink-faint);
         }
         .footer__bottom a:hover { color: var(--ink); }
+        .footer__disclaimer {
+            padding: 0 0 28px;
+            font-size: 0.6875rem;
+            line-height: 1.7;
+            color: var(--ink-faint);
+            max-width: 64em;
+        }
 
         /* ---------- touch parity: scroll-driven versions of hover effects ---------- */
         @media (hover: none) {
@@ -1157,7 +1164,7 @@
                     <div>
                         <p class="eyebrow reveal">( 05 / Contact )</p>
                         <h2 class="contact__title display reveal">Let's <em>connect</em></h2>
-                        <p class="contact__text reveal">Building something at the intersection of finance and AI? Want The Village on your campus, or me on a stage? If it's worth doing well, I want to hear about it. And if you're building a team and this page reads like someone you need, that conversation is welcome too. The door is open.</p>
+                        <p class="contact__text reveal">Want The Village on your campus, or me on a stage? Working on something interesting at the intersection of finance and AI? I want to hear about it. And if you're building a team and this page reads like someone you need, that conversation is welcome too. The door is open.</p>
                         <div class="reveal">
                             <div class="contact__detail">
                                 <span class="contact__detail-label">Based in</span>
@@ -1184,7 +1191,6 @@
                                 <option value="" disabled selected>Choose one</option>
                                 <option value="General Inquiry">General inquiry</option>
                                 <option value="Opportunity">Opportunity / Join a team</option>
-                                <option value="Consulting">Consulting</option>
                                 <option value="Speaking">Speaking</option>
                                 <option value="The Village">The Village</option>
                                 <option value="Partnership or Sponsorship">Partnership / Sponsorship</option>
@@ -1218,6 +1224,7 @@
                 <span>© 2026 Tyler Harper · OneStandard</span>
                 <span>How you do anything is how you do everything</span>
             </div>
+            <p class="footer__disclaimer">This is a personal website. All views and content are my own and do not represent the views of any employer or affiliated organization. Nothing on this site constitutes financial, investment, legal, or professional advice, or an offer of services.</p>
         </div>
     </footer>
 

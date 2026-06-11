@@ -543,6 +543,53 @@
         }
         .method__tagline strong { color: var(--paper-ink); font-weight: 400; }
 
+        /* ---------- story (living resume) ---------- */
+        .story__grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .story-card {
+            background: var(--bg-2);
+            border: 1px solid var(--line-soft);
+            border-radius: 20px;
+            padding: clamp(28px, 3.5vw, 40px);
+            box-shadow: var(--shadow-soft);
+            transition: box-shadow 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+        .story-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); }
+        .story-card--wide { grid-column: 1 / -1; }
+        .story-card__tag {
+            font-size: 0.625rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+        .story-card__title {
+            font-family: var(--display);
+            font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 12px;
+        }
+        .story-card__text {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--ink-dim);
+        }
+        .story__creds { margin-top: 56px; }
+        .story__creds-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-bottom: 18px;
+        }
+
         /* ---------- quote / standard ---------- */
         .quote { text-align: center; }
         .quote__text {
@@ -702,6 +749,7 @@
             .about__photo img { transition: transform 1.6s var(--ease), filter 1.2s ease; }
             .about__media.is-in .about__photo img { transform: scale(1); filter: grayscale(0); }
             .about__credential.is-active { border-color: var(--ink-dim); color: var(--ink); }
+            .story-card.is-active { box-shadow: var(--shadow-lift); transform: translateY(-4px); }
             .contact__detail { transition: border-color 0.5s ease; }
             .contact__detail.is-active { border-top-color: var(--line); }
             .contact__detail.is-active .contact__detail-value { color: var(--accent); }
@@ -743,6 +791,7 @@
             .about__stat + .about__stat { padding-left: 0; border-left: none; border-top: 1px solid var(--line-soft); margin-top: 18px; padding-top: 18px; }
             .about__credentials { margin-top: 36px; }
 
+            .story__grid { grid-template-columns: 1fr; gap: 14px; }
             .pillar { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
             .pillar:hover { padding-left: 0; }
             .pillar__name { font-size: clamp(1.625rem, 7.5vw, 2.25rem); }
@@ -775,6 +824,7 @@
                 <a href="#" class="nav__logo">Tyler Harper <em>· OneStandard</em></a>
                 <ul class="nav__menu">
                     <li><a href="#about" class="nav__link">About</a></li>
+                    <li><a href="#story" class="nav__link">Story</a></li>
                     <li><a href="#build" class="nav__link">What I Build</a></li>
                     <li><a href="#village" class="nav__link">The Village</a></li>
                     <li><a href="#contact" class="nav__link">Contact</a></li>
@@ -792,10 +842,11 @@
 
     <div class="nav__mobile" id="mobileMenu">
         <a href="#about" class="nav__mobile-link">About <span>01</span></a>
-        <a href="#build" class="nav__mobile-link">What I Build <span>02</span></a>
-        <a href="#village" class="nav__mobile-link">The Village <span>03</span></a>
-        <a href="#capture" class="nav__mobile-link">Newsletter <span>04</span></a>
-        <a href="#contact" class="nav__mobile-link">Contact <span>05</span></a>
+        <a href="#story" class="nav__mobile-link">Story <span>02</span></a>
+        <a href="#build" class="nav__mobile-link">What I Build <span>03</span></a>
+        <a href="#village" class="nav__mobile-link">The Village <span>04</span></a>
+        <a href="#capture" class="nav__mobile-link">Newsletter <span>05</span></a>
+        <a href="#contact" class="nav__mobile-link">Contact <span>06</span></a>
     </div>
 
     <main id="main">
@@ -854,7 +905,7 @@
                     </div>
                     <div>
                         <p class="about__lede reveal">I've spent my career proving the same thing in different rooms: <em>disciplined systems beat raw talent</em>, and the way you handle small things is the way you'll handle everything.</p>
-                        <p class="about__text reveal">My foundation is in wealth management and institutional finance, but credentials are table stakes. What I actually do is build. I've designed simulation platforms, AI tooling, and automation systems that take work people dread and make it fast, repeatable, and reliable. I think in architecture: where the leverage is, where the system will break, and what to build so it doesn't.</p>
+                        <p class="about__text reveal">My foundation is in wealth management and institutional finance, sharpened along the way by consulting inside Fortune 500 rooms. But credentials are table stakes. What I actually do is build. I've designed simulation platforms, AI tooling, and automation systems that take work people dread and make it fast, repeatable, and reliable. I think in architecture: where the leverage is, where the system will break, and what to build so it doesn't.</p>
                         <p class="about__text reveal">Discipline is the through line. Not intensity, structure. I believe motivation is weather and systems are climate, so I design my days the way I design my work: clear standards, tight feedback loops, and routines that hold up on the days I don't feel like it. The standard you keep in private is the one you bring everywhere.</p>
                         <p class="about__text reveal">That belief is also why I founded The Village, a free leadership and career acceleration program for college students. The systems that changed my life should be available to people who don't have access to them yet. The thread running through all of it is simple: raise the floor on what's possible for the people and problems I touch.</p>
                         <div class="about__stats reveal">
@@ -871,11 +922,52 @@
                                 <p class="about__stat-label">Before recognition</p>
                             </div>
                         </div>
-                        <div class="about__credentials reveal">
-                            <span class="about__credential">Wealth Management &amp; Institutional Finance</span>
-                            <span class="about__credential">Lean Six Sigma Green Belt</span>
-                            <span class="about__credential">CFA Candidate</span>
-                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORY / LIVING RESUME -->
+        <section class="section" id="story">
+            <div class="container">
+                <div class="section__head reveal">
+                    <h2 class="section__title display">Where the standard <em>comes from</em></h2>
+                    <span class="section__index">( 02 / The Story )</span>
+                </div>
+                <div class="story__grid">
+                    <article class="story-card reveal">
+                        <p class="story-card__tag">Today</p>
+                        <h3 class="story-card__title">Building at the edge of finance and AI</h3>
+                        <p class="story-card__text">Simulation platforms, AI tooling, and automation infrastructure. The work that used to take teams of analysts, redesigned so one person with the right system can do it well. This is where the energy goes.</p>
+                    </article>
+                    <article class="story-card reveal">
+                        <p class="story-card__tag">The Foundation</p>
+                        <h3 class="story-card__title">Wealth management &amp; institutional finance</h3>
+                        <p class="story-card__text">Where the chops come from. Years inside the machinery of money, learning what precision means when real people's outcomes are on the line. Finance taught me stakes. It's still the lens I build through.</p>
+                    </article>
+                    <article class="story-card reveal">
+                        <p class="story-card__tag">A Stop Along the Way</p>
+                        <h3 class="story-card__title">Consulting in Fortune 500 rooms</h3>
+                        <p class="story-card__text">Not the origin story, but a chapter that built range: leadership development programs for senior leaders, global teams, high-stakes delivery. The rooms changed. The standard didn't.</p>
+                    </article>
+                    <article class="story-card reveal">
+                        <p class="story-card__tag">Community</p>
+                        <h3 class="story-card__title">Founder, The Village</h3>
+                        <p class="story-card__text">A free leadership and career acceleration program for college students. Proof that the mission isn't a tagline: the systems that change trajectories, handed to people who don't have access to them yet.</p>
+                    </article>
+                    <article class="story-card story-card--wide reveal">
+                        <p class="story-card__tag">The Roots</p>
+                        <h3 class="story-card__title">Marietta, GA &rarr; Chicago, IL</h3>
+                        <p class="story-card__text">The geography changed. The operating system didn't. Faith, discipline, and hard work made the trip, and they show up in everything from how I structure a morning to how I architect a platform.</p>
+                    </article>
+                </div>
+                <div class="story__creds reveal">
+                    <p class="story__creds-label">Credentials &amp; recognition</p>
+                    <div class="about__credentials" style="margin-top: 0;">
+                        <span class="about__credential">Wealth Management &amp; Institutional Finance</span>
+                        <span class="about__credential">Fortune 500 Consulting</span>
+                        <span class="about__credential">Lean Six Sigma Green Belt</span>
+                        <span class="about__credential">CFA Candidate</span>
                     </div>
                 </div>
             </div>
@@ -886,7 +978,7 @@
             <div class="container">
                 <div class="section__head reveal">
                     <h2 class="section__title display">What I <em>build</em></h2>
-                    <span class="section__index">( 02 / Selected Work )</span>
+                    <span class="section__index">( 03 / Selected Work )</span>
                 </div>
                 <article class="pillar reveal">
                     <span class="pillar__num">01</span>
@@ -968,9 +1060,9 @@
             <div class="container">
                 <div class="contact__grid">
                     <div>
-                        <p class="eyebrow reveal">( 04 / Contact )</p>
+                        <p class="eyebrow reveal">( 05 / Contact )</p>
                         <h2 class="contact__title display reveal">Let's <em>connect</em></h2>
-                        <p class="contact__text reveal">Building something at the intersection of finance and AI? Want The Village on your campus, or me on a stage? If it's worth doing well, I want to hear about it. The door is open.</p>
+                        <p class="contact__text reveal">Building something at the intersection of finance and AI? Want The Village on your campus, or me on a stage? If it's worth doing well, I want to hear about it. And if you're building a team and this page reads like someone you need, that conversation is welcome too. The door is open.</p>
                         <div class="reveal">
                             <div class="contact__detail">
                                 <span class="contact__detail-label">Email</span>
@@ -1090,7 +1182,7 @@
             const band = new IntersectionObserver(entries => {
                 entries.forEach(e => e.target.classList.toggle('is-active', e.isIntersecting));
             }, { rootMargin: '-38% 0px -38% 0px' });
-            document.querySelectorAll('.pillar, .contact__detail, .about__credential').forEach(el => band.observe(el));
+            document.querySelectorAll('.pillar, .contact__detail, .about__credential, .story-card').forEach(el => band.observe(el));
         }
 
         // Chicago local time in nav
